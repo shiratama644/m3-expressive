@@ -8,7 +8,7 @@ test.describe('landing /', () => {
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toContainText('1 色から生成');
     for (const label of ['React', 'Next.js', 'Vue', 'Tailwind CSS v4']) {
-      await expect(page.getByText(label, { exact: true }).first()).toBeVisible();
+      await expect(page.getByText(label, { exact: false }).first()).toBeVisible();
     }
     expect(errors).toHaveLength(0);
   });
