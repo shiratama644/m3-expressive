@@ -34,10 +34,13 @@ test.describe('studio /studio', () => {
   test('editing the seed updates the URL (shareable state)', async ({ page }) => {
     await page.goto('/studio');
     const seed = page.getByLabel('Pick seed color');
-    await seed.evaluate((el: HTMLInputElement) => {
-      el.value = '#00e676';
+    await seed.evaluate((el) => {
+      const setter = Object.getOwnPropertyDescriptor(
+        window.HTMLInputElement.prototype,
+        'value',
+      )!.set!;
+      setter.call(el, '#00e676');
       el.dispatchEvent(new Event('input', { bubbles: true }));
-      el.dispatchEvent(new Event('change', { bubbles: true }));
     });
     await expect.poll(() => page.url()).toContain('s=00e676');
   });

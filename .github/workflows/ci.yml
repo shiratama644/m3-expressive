@@ -95,7 +95,7 @@ jobs:
           if [ "$code" -ne 0 ]; then
             msg=""
             if [ -f results.json ]; then
-              msg=$(node -e "const r=require('./results.json');const out=[];for(const su of r.suites||[])for(const s2 of su.suites||[])for(const sp of s2.specs||[])for(const t of sp.tests||[])for(const res of t.results||[])if(res.status!=='passed')out.push(sp.title+' :: '+((res.error&&res.error.message)||res.status));console.log(out.slice(0,4).join(' ||| '))" 2>/dev/null)
+              msg=$(node -e "const r=require('./results.json');const out=[];for(const su of r.suites||[])for(const s2 of su.suites||[])for(const sp of s2.specs||[])for(const t of sp.tests||[])for(const res of t.results||[])if(res.status!=='passed'){const e=res.error||{};const snip=(e.snippet||'').split(String.fromCharCode(10)).slice(1,4).join(' >> ');out.push(sp.title+' @L'+(e.location?e.location.line:'?')+' :: '+(e.message||res.status)+' :: '+snip)}console.log(out.slice(0,3).join(' ||| '))" 2>/dev/null)
             fi
             if [ -z "$msg" ]; then
               msg=$(grep -oE "Error:.{0,160}" e2e-console.log | head -4)
