@@ -1,14 +1,14 @@
-import { M3E_COLOR_ROLES } from '@/lib/m3e/roles';
 import { MOTION_DURATIONS, MOTION_EASINGS } from '@/lib/m3e/motion';
+import { M3E_COLOR_ROLES } from '@/lib/m3e/roles';
 import { SHAPE_SIZES } from '@/lib/m3e/shape';
 import { TYPE_ROLES } from '@/lib/m3e/typography';
 import {
   banner,
+  type GenContext,
+  type GenFile,
   generateReadme,
   generateTokensCss,
   generateTokensJsonFile,
-  type GenContext,
-  type GenFile,
 } from './common';
 import { PM } from './pm';
 

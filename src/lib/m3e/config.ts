@@ -1,6 +1,6 @@
 import type { M3EVariant } from './color';
-import type { ShapeEmphasis } from './shape';
 import type { MotionScheme } from './motion';
+import type { ShapeEmphasis } from './shape';
 import type { TypeFamily } from './typography';
 
 /** One knob set that fully determines every token + export. */

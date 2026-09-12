@@ -1,5 +1,5 @@
-export * from './config';
 export * from './color';
+export * from './config';
 export * from './css';
 export * from './motion';
 export * from './roles';

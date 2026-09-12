@@ -1,17 +1,17 @@
-import { buildColorSchemes, palettesFor, paletteHex } from './color';
-import { clampConfig, prefixFor, type M3EConfig } from './config';
-import { M3E_COLOR_ROLES } from './roles';
+import { buildColorSchemes, paletteHex, palettesFor } from './color';
+import { clampConfig, type M3EConfig, prefixFor } from './config';
 import {
+  cubicBezierCss,
   MOTION_DURATIONS,
   MOTION_EASINGS,
   MOTION_PATTERNS,
   SPRING_USAGES,
-  cubicBezierCss,
   solveSpring,
   springFor,
 } from './motion';
-import { NAMED_SHAPES, SHAPE_SIZES, namedShapeCss, shapeSizePx } from './shape';
-import { TYPE_ROLES, TYPE_SCALE, fontStack, resolveType } from './typography';
+import { M3E_COLOR_ROLES } from './roles';
+import { NAMED_SHAPES, namedShapeCss, SHAPE_SIZES, shapeSizePx } from './shape';
+import { fontStack, resolveType, TYPE_ROLES, TYPE_SCALE } from './typography';
 
 export type VarMap = Record<string, string>;
 
@@ -203,9 +203,9 @@ export function renderThemeCss(bundle: ThemeBundle, opts: CssOptions): string {
       '  }\n' +
       '}',
   );
-  let css = lines.join('\n\n') + '\n';
+  let css = `${lines.join('\n\n')}\n`;
   if (opts.tailwindTheme) {
-    css = renderTailwindThemeBlock(bundle) + '\n' + css;
+    css = `${renderTailwindThemeBlock(bundle)}\n${css}`;
   }
   return css;
 }
@@ -260,6 +260,6 @@ export function varsAsReactInline(bundle: ThemeBundle, mode: 'light' | 'dark'): 
 function indent(s: string): string {
   return s
     .split('\n')
-    .map((l) => '  ' + l)
+    .map((l) => `  ${l}`)
     .join('\n');
 }

@@ -1,10 +1,9 @@
-import { buildTheme, type ThemeBundle } from './css';
-import { M3E_COLOR_ROLES } from './roles';
-import { MOTION_DURATIONS, MOTION_EASINGS, MOTION_SPRINGS } from './motion';
-import { SHAPE_SIZES, NAMED_SHAPES } from './shape';
-import { TYPE_ROLES } from './typography';
-import { shapeSizePx } from './shape';
 import type { M3EConfig } from './config';
+import { buildTheme, type ThemeBundle } from './css';
+import { MOTION_DURATIONS, MOTION_EASINGS, MOTION_SPRINGS } from './motion';
+import { M3E_COLOR_ROLES } from './roles';
+import { NAMED_SHAPES, SHAPE_SIZES, shapeSizePx } from './shape';
+import { TYPE_ROLES } from './typography';
 
 /** W3C DTCG-style design tokens JSON for the current config. */
 export function generateTokensJson(input: M3EConfig): string {
@@ -107,5 +106,5 @@ export function generateTokensJson(input: M3EConfig): string {
     },
   };
 
-  return JSON.stringify(json, null, 2) + '\n';
+  return `${JSON.stringify(json, null, 2)}\n`;
 }

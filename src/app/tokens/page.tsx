@@ -1,12 +1,12 @@
-import { buildColorSchemes, palettesFor, paletteHex, VARIANT_LABELS } from '@/lib/m3e/color';
+import { buildColorSchemes, paletteHex, palettesFor, VARIANT_LABELS } from '@/lib/m3e/color';
 import { DEFAULT_CONFIG } from '@/lib/m3e/config';
-import { COLOR_ROLE_GROUPS } from '@/lib/m3e/roles';
 import {
   MOTION_DURATIONS,
   MOTION_EASINGS,
   MOTION_PATTERNS,
   MOTION_SPRINGS,
 } from '@/lib/m3e/motion';
+import { COLOR_ROLE_GROUPS } from '@/lib/m3e/roles';
 import { NAMED_SHAPES, SHAPE_SIZES } from '@/lib/m3e/shape';
 import { TYPE_ROLES, TYPE_SCALE } from '@/lib/m3e/typography';
 

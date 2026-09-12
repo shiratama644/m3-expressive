@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { buildColorSchemes, palettesFor, paletteHex } from '@/lib/m3e/color';
-import { DEFAULT_CONFIG } from '@/lib/m3e/config';
-import { M3Toast } from '@/components/m3e/surfaces';
-import { M3FilterChip } from '@/components/m3e/inputs';
 import { HeroDemo } from '@/components/landing/hero-demo';
+import { M3FilterChip } from '@/components/m3e/inputs';
+import { M3Toast } from '@/components/m3e/surfaces';
+import { buildColorSchemes, paletteHex, palettesFor } from '@/lib/m3e/color';
+import { DEFAULT_CONFIG } from '@/lib/m3e/config';
 
 const STACKS = [
   { label: 'React', icon: '⚛' },

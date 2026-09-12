@@ -1,5 +1,5 @@
-import { buildTheme, renderThemeCss } from '@/lib/m3e/css';
 import { DEFAULT_CONFIG } from '@/lib/m3e/config';
+import { buildTheme, renderThemeCss } from '@/lib/m3e/css';
 
 /**
  * The site's own chrome theme — computed from the M3E engine with the default

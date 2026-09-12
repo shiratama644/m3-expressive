@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from 'next';
 import '@fontsource-variable/roboto-flex/full.css';
 import '@fontsource-variable/material-symbols-rounded/full.css';
 import './globals.css';
-import { getSiteThemeCss } from '@/lib/site-theme';
-import { SiteHeader } from '@/components/site/SiteHeader';
 import { SiteFooter } from '@/components/site/SiteFooter';
+import { SiteHeader } from '@/components/site/SiteHeader';
+import { getSiteThemeCss } from '@/lib/site-theme';
 
 export const metadata: Metadata = {
   title: {

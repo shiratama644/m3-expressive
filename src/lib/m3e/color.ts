@@ -1,8 +1,8 @@
+import type { DynamicScheme, Platform } from '@material/material-color-utilities';
 import {
-  Hct,
-  TonalPalette,
-  hexFromArgb,
   argbFromHex,
+  Hct,
+  hexFromArgb,
   SchemeContent,
   SchemeExpressive,
   SchemeFidelity,
@@ -12,12 +12,13 @@ import {
   SchemeRainbow,
   SchemeTonalSpot,
   SchemeVibrant,
+  TonalPalette,
 } from '@material/material-color-utilities';
-import type { DynamicScheme, Platform } from '@material/material-color-utilities';
 
 /** Color spec revision (material-color-utilities 0.4.0; the type is not re-exported from the root). */
 export type SpecVersion = '2021' | '2025';
-import { M3E_COLOR_ROLES, roleToGetter, type M3EColorRole } from './roles';
+
+import { M3E_COLOR_ROLES, type M3EColorRole, roleToGetter } from './roles';
 
 /**
  * Dynamic color variants exposed by the studio.

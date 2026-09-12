@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
  * M3E Studio site chrome
@@ -43,8 +43,8 @@
   --color-outline: var(--m3e-color-outline);
   --color-outline-variant: var(--m3e-color-outline-variant);
 
-  --font-sans: 'Roboto Flex Variable', 'Roboto', system-ui, sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'JetBrains Mono', monospace;
+  --font-sans: "Roboto Flex Variable", "Roboto", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", monospace;
 
   --radius-button: var(--m3e-shape-button);
   --radius-card: var(--m3e-shape-card);
@@ -53,7 +53,7 @@
 
 /* Material Symbols Rounded (self-hosted via Fontsource, all axes) */
 .material-symbols-rounded {
-  font-family: 'Material Symbols Rounded Variable';
+  font-family: "Material Symbols Rounded Variable", sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
@@ -65,19 +65,19 @@
   word-wrap: normal;
   direction: ltr;
   font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24;
-  -webkit-font-feature-settings: 'liga';
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+  -webkit-font-feature-settings: "liga";
   -webkit-font-smoothing: antialiased;
 }
 .material-symbols-rounded.fill {
   font-variation-settings:
-    'FILL' 1,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24;
+    "FILL" 1,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
 }
 
 html {
@@ -88,8 +88,8 @@ body {
   background: var(--m3e-color-background);
   color: var(--m3e-color-on-background);
   font-variation-settings:
-    'opsz' 16,
-    'wght' 400;
+    "opsz" 16,
+    "wght" 400;
 }
 
 ::selection {
@@ -403,9 +403,9 @@ body {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
   }
 }
 
@@ -413,15 +413,15 @@ body {
 @utility m3e-press {
   transition:
     transform var(--m3e-motion-spring-fast-spatial-duration)
-      var(--m3e-motion-spring-fast-spatial-easing),
+    var(--m3e-motion-spring-fast-spatial-easing),
     border-radius var(--m3e-motion-spring-fast-spatial-duration)
-      var(--m3e-motion-spring-fast-spatial-easing),
+    var(--m3e-motion-spring-fast-spatial-easing),
     background-color var(--m3e-motion-spring-default-effects-duration)
-      var(--m3e-motion-spring-default-effects-easing),
+    var(--m3e-motion-spring-default-effects-easing),
     color var(--m3e-motion-spring-default-effects-duration)
-      var(--m3e-motion-spring-default-effects-easing),
+    var(--m3e-motion-spring-default-effects-easing),
     box-shadow var(--m3e-motion-spring-default-effects-duration)
-      var(--m3e-motion-spring-default-effects-easing);
+    var(--m3e-motion-spring-default-effects-easing);
 }
 @utility m3e-spatial {
   transition: all var(--m3e-motion-spring-default-spatial-duration)
@@ -430,9 +430,9 @@ body {
 @utility m3e-fade {
   transition:
     opacity var(--m3e-motion-spring-default-effects-duration)
-      var(--m3e-motion-spring-default-effects-easing),
+    var(--m3e-motion-spring-default-effects-easing),
     transform var(--m3e-motion-spring-default-spatial-duration)
-      var(--m3e-motion-spring-default-spatial-easing);
+    var(--m3e-motion-spring-default-spatial-easing);
 }
 
 /* ---- M3E range slider (flat track + springy thumb) ---- */

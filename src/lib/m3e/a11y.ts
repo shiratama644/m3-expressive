@@ -1,6 +1,6 @@
-import { prefixFor, type M3EConfig } from './config';
-import { buildTheme } from './css';
+import { type M3EConfig, prefixFor } from './config';
 import type { ThemeBundle } from './css';
+import { buildTheme } from './css';
 import { M3E_COLOR_ROLES, type M3EColorRole } from './roles';
 
 /**

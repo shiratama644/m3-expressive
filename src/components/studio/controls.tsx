@@ -1,11 +1,10 @@
 'use client';
 
-import { VARIANT_LABELS, type M3EVariant } from '@/lib/m3e/color';
-import { M3E_VARIANTS } from '@/lib/m3e/color';
+import { Icon } from '@/components/m3e/actions';
+import { M3E_VARIANTS, type M3EVariant, VARIANT_LABELS } from '@/lib/m3e/color';
+import { ControlGroup, Field, Segmented, SliderRow, SwitchRow } from './primitives';
 import type { StudioPatch, StudioState } from './state';
 import { SEED_PRESETS } from './state';
-import { ControlGroup, Field, Segmented, SliderRow, SwitchRow } from './primitives';
-import { Icon } from '@/components/m3e/actions';
 
 function randomSeed(): string {
   const h = Math.floor(Math.random() * 360);

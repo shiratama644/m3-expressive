@@ -1,11 +1,11 @@
 import {
   banner,
+  type GenContext,
+  type GenFile,
   generateReadme,
   generateThemeTs,
   generateTokensCss,
   generateTokensJsonFile,
-  type GenContext,
-  type GenFile,
 } from './common';
 
 export function reactFiles(ctx: GenContext): GenFile[] {

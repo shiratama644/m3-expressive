@@ -1,7 +1,7 @@
-import { buildTheme } from '@/lib/m3e/css';
-import { prefixFor } from '@/lib/m3e/config';
-import { M3E_COLOR_ROLES, type M3EColorRole } from '@/lib/m3e/roles';
 import type { M3EConfig } from '@/lib/m3e/config';
+import { prefixFor } from '@/lib/m3e/config';
+import { buildTheme } from '@/lib/m3e/css';
+import { M3E_COLOR_ROLES, type M3EColorRole } from '@/lib/m3e/roles';
 import type { GenFile } from './common';
 
 /** Extra export targets beyond the web frameworks (added on top of a FW bundle). */

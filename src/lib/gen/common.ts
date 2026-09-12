@@ -1,8 +1,8 @@
-import { buildTheme, renderThemeCss, type ThemeBundle } from '@/lib/m3e/css';
-import { TYPE_ROLES } from '@/lib/m3e/typography';
-import { generateTokensJson } from '@/lib/m3e/tokensJson';
 import type { M3EConfig } from '@/lib/m3e/config';
-import { PM, type PackageManager } from './pm';
+import { buildTheme, renderThemeCss, type ThemeBundle } from '@/lib/m3e/css';
+import { generateTokensJson } from '@/lib/m3e/tokensJson';
+import { TYPE_ROLES } from '@/lib/m3e/typography';
+import { type PackageManager, PM } from './pm';
 
 export interface GenFile {
   /** e.g. "src/theme/tokens.css" */
@@ -95,7 +95,7 @@ export function generateTokensCss(ctx: GenContext, opts: { withTailwind: boolean
   }
 }`);
 
-  return parts.join('\n\n') + '\n';
+  return `${parts.join('\n\n')}\n`;
 }
 
 export function generateTokensJsonFile(ctx: GenContext): GenFile {

@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { buildTheme } from '@/lib/m3e/css';
-import { DEFAULT_CONFIG, prefixFor } from '@/lib/m3e/config';
-import { SEED_PRESETS } from '@/components/studio/state';
-import { deleteTheme, listThemes, type StoredTheme } from '@/lib/presets/db';
+import { useEffect, useMemo, useState } from 'react';
 import { Icon } from '@/components/m3e/actions';
+import { SEED_PRESETS } from '@/components/studio/state';
+import { DEFAULT_CONFIG, prefixFor } from '@/lib/m3e/config';
+import { buildTheme } from '@/lib/m3e/css';
+import { deleteTheme, listThemes, type StoredTheme } from '@/lib/presets/db';
 
 function previewStrip(seed: string) {
   const bundle = buildTheme({ ...DEFAULT_CONFIG, seed });
@@ -59,6 +59,7 @@ function ThemeCard({
           <p className="t-body-small text-on-surface-variant">{sub}</p>
         </div>
         <span
+          role="img"
           className="ring-outline h-6 w-6 shrink-0 rounded-(--m3e-shape-extra-small) ring-1"
           style={{ background: seed }}
           aria-label={`Seed ${seed}`}

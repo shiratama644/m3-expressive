@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type CSSProperties } from 'react';
+import { type CSSProperties, useState } from 'react';
 import {
   Icon,
   M3Button,

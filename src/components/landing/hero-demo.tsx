@@ -8,9 +8,13 @@ import {
   M3IconButton,
   M3SplitButton,
 } from '@/components/m3e/actions';
-import { M3LoadingIndicator, M3LinearProgress, M3MiniPlayer } from '@/components/m3e/surfaces';
-import { M3Badge } from '@/components/m3e/surfaces';
 import { M3Switch } from '@/components/m3e/inputs';
+import {
+  M3Badge,
+  M3LinearProgress,
+  M3LoadingIndicator,
+  M3MiniPlayer,
+} from '@/components/m3e/surfaces';
 
 export function HeroDemo() {
   const [hifi, setHifi] = useState(true);

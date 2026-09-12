@@ -1,5 +1,5 @@
-import { DEFAULT_CONFIG, type M3EConfig } from '@/lib/m3e/config';
 import { M3E_VARIANTS, type M3EVariant } from '@/lib/m3e/color';
+import { DEFAULT_CONFIG, type M3EConfig } from '@/lib/m3e/config';
 import { M3E_FAMILIES, type StudioFamily } from './families';
 
 export interface StudioState {

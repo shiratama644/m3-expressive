@@ -1,15 +1,15 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { buildTheme } from '@/lib/m3e/css';
+import { Icon } from '@/components/m3e/actions';
+import { A11yPanel } from '@/components/studio/a11y-panel';
+import { CodePanel } from '@/components/studio/code-panel';
 import { Controls } from '@/components/studio/controls';
 import { Preview } from '@/components/studio/preview';
-import { CodePanel } from '@/components/studio/code-panel';
-import { A11yPanel } from '@/components/studio/a11y-panel';
+import { type StudioPatch, type StudioState, stateToParams } from '@/components/studio/state';
 import { ThemeActions } from '@/components/studio/theme-actions';
-import { stateToParams, type StudioPatch, type StudioState } from '@/components/studio/state';
 import { VARIANT_LABELS } from '@/lib/m3e/color';
-import { Icon } from '@/components/m3e/actions';
+import { buildTheme } from '@/lib/m3e/css';
 
 type Tab = 'preview' | 'code' | 'a11y';
 
@@ -67,6 +67,7 @@ export function Studio({ initialState }: { initialState: StudioState }) {
               {state.config.contrast} · {state.mode}
             </span>
             <span
+              role="img"
               aria-label="Seed color"
               title={`Seed ${state.config.seed}`}
               className="ring-outline h-5 w-5 shrink-0 rounded-(--m3e-shape-extra-small) ring-1"

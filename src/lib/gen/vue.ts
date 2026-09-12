@@ -1,11 +1,11 @@
 import {
   fontDeps,
+  type GenContext,
+  type GenFile,
   generateReadme,
   generateThemeTs,
   generateTokensCss,
   generateTokensJsonFile,
-  type GenContext,
-  type GenFile,
 } from './common';
 import { PM } from './pm';
 

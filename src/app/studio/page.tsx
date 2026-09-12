@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { Studio } from './studio';
 import { paramsToState, type StudioState } from '@/components/studio/state';
+import { Studio } from './studio';
 
 export const metadata: Metadata = {
   title: 'Studio',

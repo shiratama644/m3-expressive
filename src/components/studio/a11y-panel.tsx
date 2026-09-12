@@ -1,17 +1,17 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import {
-  auditTheme,
-  A11Y_LEVELS,
-  A11Y_LEVEL_LABELS,
-  advisoryNotes,
-  findFixContrast,
-  type A11yLevel,
-} from '@/lib/m3e/a11y';
-import type { ThemeBundle } from '@/lib/m3e/css';
-import { prefixFor } from '@/lib/m3e/config';
 import { Icon } from '@/components/m3e/actions';
+import {
+  A11Y_LEVEL_LABELS,
+  A11Y_LEVELS,
+  type A11yLevel,
+  advisoryNotes,
+  auditTheme,
+  findFixContrast,
+} from '@/lib/m3e/a11y';
+import { prefixFor } from '@/lib/m3e/config';
+import type { ThemeBundle } from '@/lib/m3e/css';
 
 const fmt = (r: number): string => `${r >= 20.5 ? '21' : r.toFixed(2)}:1`;
 

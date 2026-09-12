@@ -1,10 +1,10 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { DEFAULT_CONFIG } from '@/lib/m3e/config';
-import { FRAMEWORKS, FRAMEWORK_META, generateFiles, fontDeps, type Framework } from '@/lib/gen';
-import { PACKAGE_MANAGERS, PM, PM_LABELS, type PackageManager } from '@/lib/gen/pm';
+import { FRAMEWORK_META, FRAMEWORKS, type Framework, fontDeps, generateFiles } from '@/lib/gen';
 import { highlight } from '@/lib/gen/highlight';
+import { PACKAGE_MANAGERS, type PackageManager, PM, PM_LABELS } from '@/lib/gen/pm';
+import { DEFAULT_CONFIG } from '@/lib/m3e/config';
 
 export function SetupExplorer() {
   const [framework, setFramework] = useState<Framework>('next');

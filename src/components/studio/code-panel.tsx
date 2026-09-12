@@ -1,21 +1,21 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { Icon } from '@/components/m3e/actions';
 import {
-  EXPORT_TARGETS,
   EXPORT_TARGET_LABELS,
-  FRAMEWORKS,
-  FRAMEWORK_META,
-  generateFiles,
+  EXPORT_TARGETS,
   type ExportTarget,
+  FRAMEWORK_META,
+  FRAMEWORKS,
   type Framework,
+  generateFiles,
 } from '@/lib/gen';
-import { PACKAGE_MANAGERS, PM_LABELS, type PackageManager } from '@/lib/gen/pm';
 import { highlight } from '@/lib/gen/highlight';
-import { downloadProjectZip } from './zip';
+import { PACKAGE_MANAGERS, type PackageManager, PM_LABELS } from '@/lib/gen/pm';
 import type { StudioState } from './state';
 import { stateToParams } from './state';
-import { Icon } from '@/components/m3e/actions';
+import { downloadProjectZip } from './zip';
 
 const LANG_BADGE: Record<string, string> = {
   css: 'CSS',

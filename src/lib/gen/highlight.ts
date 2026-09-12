@@ -24,12 +24,13 @@ export function highlight(code: string): string {
   const escaped = escapeHtml(code);
   const out: string[] = [];
   let last = 0;
-  let m: RegExpExecArray | null;
   TOKEN.lastIndex = 0;
-  while ((m = TOKEN.exec(escaped))) {
+  let m: RegExpExecArray | null = TOKEN.exec(escaped);
+  while (m !== null) {
     if (m.index > last) out.push(escaped.slice(last, m.index));
     out.push(`<span class="${classFor(m[0])}">${m[0]}</span>`);
     last = m.index + m[0].length;
+    m = TOKEN.exec(escaped);
   }
   if (last < escaped.length) out.push(escaped.slice(last));
   return out.join('');

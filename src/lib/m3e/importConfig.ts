@@ -1,8 +1,8 @@
-import { DEFAULT_CONFIG, clampConfig, type M3EConfig } from './config';
 import { M3E_VARIANTS, type M3EVariant } from './color';
+import { clampConfig, DEFAULT_CONFIG, type M3EConfig } from './config';
 import type { MotionScheme } from './motion';
-import type { TypeFamily } from './typography';
 import type { ShapeEmphasis } from './shape';
+import type { TypeFamily } from './typography';
 
 /**
  * Parse a Studio **tokens.json** (exported by this site) or a Studio share
