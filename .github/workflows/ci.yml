@@ -90,17 +90,16 @@ jobs:
       - name: e2e
         run: |
           set +e
-          PLAYWRIGHT_JSON_OUTPUT_NAME=results.json pnpm test:e2e --reporter=json
+          PLAYWRIGHT_JSON_OUTPUT_NAME=results.json pnpm test:e2e --reporter=line --reporter=json > e2e-console.log 2>&1
           code=$?
-          set -e
-          if [ "$code" -ne 0 ] && [ -f results.json ]; then
-            msg=$(jq -r '[.suites[]?.suites[]?.specs[]? | . as $s | .tests[]?.results[]?
-                        | select(.status != "passed")
-                        | ($s.title + " :: " + ((.error.message // .status // "?") | gsub("\n"; " ⏎ ")))]
-                        | first(.[0:4]) // "no details"' results.json | head -c 1800 | tr '%' '#')
-            echo "::error title=Playwright failure::$msg"
-          else
-            jq -r '.stats' results.json | head -5
+          if [ "$code" -ne 0 ]; then
+            tail -60 e2e-console.log
+            msg=$(tr '
+' '~' < e2e-console.log | grep -o "Error[^~]*~*[^~]*" | head -4 | tr '~' ' ' | tr '%' '#' | cut -c1-1400)
+            if [ -z "$msg" ] && [ -f results.json ]; then
+              msg=$(node -e "const r=require('./results.json');const out=[];for(const su of r.suites||[])for(const s2 of su.suites||[])for(const sp of s2.specs||[])for(const t of sp.tests||[])for(const res of t.results||[])if(res.status!=='passed')out.push(sp.title+' :: '+(res.error&&res.error.message||res.status));console.log(out.slice(0,4).join(' ||| ').replace(/\\n/g,' ').slice(0,1400))" 2>/dev/null | tr '%' '#')
+            fi
+            echo "::error title=Playwright failures::$msg"
           fi
           exit "$code"
       - uses: actions/upload-artifact@v4
