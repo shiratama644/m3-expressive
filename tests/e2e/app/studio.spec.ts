@@ -7,7 +7,7 @@ test.describe('studio /studio', () => {
 
     await page.goto('/studio?s=ff0000&v=fidelity');
     await expect(page.locator('span[aria-label="Seed color"]')).toHaveAttribute('title', /#ff0000/);
-    await expect(page.getByText('Fidelity', { exact: false }).first()).toBeVisible();
+    await expect(page.getByText('Fidelity · contrast', { exact: false })).toBeVisible();
 
     await page.getByRole('button', { name: 'Code' }).click();
     await expect(page.getByText('app/globals.css').first()).toBeVisible();

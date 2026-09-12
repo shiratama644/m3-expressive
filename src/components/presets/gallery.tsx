@@ -119,7 +119,7 @@ export function PresetGallery() {
       SEED_PRESETS.map((p) => ({
         name: p.name,
         seed: p.hex,
-        search: new URLSearchParams({ s: p.hex.slice(1) }).toString(),
+        search: new URLSearchParams({ s: p.hex.slice(1).toLowerCase() }).toString(),
       })),
     [],
   );
