@@ -60,6 +60,7 @@
 | GEN-16 | tests/ → `_tests_/` リネーム（vitest/playwright 設定追随）        | ✅                | 100% | GEN-13   | unit 81/81・`playwright test --list` 15 件（リネーム後）                     | skills/docs 追随済み |
 | GEN-17 | Vitest カバレッジ 90% 目標（設定+計画のみ・増強は次段階）         | ✅                | 100% | GEN-15   | `test:coverage` 実測 55.0% → `docs/planning/COVERAGE_PLAN.md`（M1〜M4）     | thresholds は意図的に未設定（M4 で 90 化） |
 | GEN-18 | e2e AAA 12 ペア未達解消（エンジン probe 緩和）                     | ⏸ キャンセル    |   0% | GEN-12   | 依頼取り消し（やっぱやめます）。e2e の contrast 0.9 修復フローは仕様として維持 | 将来やるなら COVERAGE_PLAN と別枠で probe 方針変更の合意形成から |
+| GEN-19 | DropMod から executer/buildEnv 移植（Termux/PRoot→webpack・他 turbopack 切替 + bundler 別キャッシュ永続化 + start/info）        | ✅                | 100% | GEN-15   | cold 17.5s→warm 6.3s・"Caching failed for pack" 0 件・start 200・unit 94/94      | next.config は .mjs 必須（冒頭コメント参照）。scripts/ も typecheck 対象 |
 
 ---
 

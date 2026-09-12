@@ -35,3 +35,10 @@ GEN-1..GEN-11 done: token engine, studio (preview/code/a11y tabs), pages, CI mat
   `COREPACK_NPM_REGISTRY=https://registry.npmjs.org corepack pnpm@12.4.1 <cmd>` (registry.npmjs.org is the only reachable npm mirror).
 - `pnpm typecheck` needs `pnpm build` first (typed routes).
 - Lint/format = Biome 2 (`biome.json`, singleQuote+semi+lineWidth 100). Biome has no react-hooks rules: the effect discipline (read URL via server `searchParams`, only WRITE it in effects) and Tailwind class ordering (`t-*` first, no plugin sorting anymore) are review-enforced conventions.
+
+## Build pipeline (scripts/executer.ts)
+
+- `dev` / `build` / `start` npm scripts go through `scripts/executer.ts` (Node 24 native type-stripping, no build step). It detects Termux (`TERMUX_VERSION`/`PREFIX`) and PRoot-Distro (`uname -a` marker) and picks `next build --webpack` there, Turbopack elsewhere (`next` 16 default, `experimental.turbopackFileSystemCache*` on). Override: `M3E_BUNDLER=webpack|turbopack` or `pnpm build -- --webpack|--turbo`. `node scripts/executer.ts info` prints the resolution.
+- Cache persistence: `.next/cache` is symlinked to `.cache/m3e-build/next-cache` (override via `M3E_CACHE_ROOT`), with `webpack/` and `turbopack/` stores kept separately; existing real `.next/cache` dirs are never touched. Verified here: cold turbopack 17.5s → warm 6.3s; webpack emits zero "Caching failed for pack".
+- `next.config` must stay **.mjs**: Next 16 compiles `next.config.ts` to a temp `next.config.compiled.js` and deletes it, which breaks webpack's filesystem cache ("Caching failed for pack"). Do not add custom webpack cache overrides either (breaks mini-css-extract-plugin pack resolution under the pnpm layout). Both pitfalls come from DropMod (`scripts/buildEnv.ts` was ported from there).
+- Pure logic lives in `scripts/buildEnv.ts` and is unit-tested under `_tests_/scripts/` (13 tests; suite is 94).

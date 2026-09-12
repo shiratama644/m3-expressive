@@ -42,3 +42,10 @@ package-manager command strings.
   WRITE the URL (`history.replaceState`).
 - Generated output must stay dependency-free: fontsource imports are optional
   comments, not required runtime deps.
+
+
+## Pitfalls (executer / config)
+
+- Never move `next.config.mjs` back to `.ts`: the compiled-config temp file makes webpack's persistent cache fail with "Caching failed for pack" (turbopack fs cache is unaffected, but the Termux/PRoot path depends on it).
+- `scripts/*.ts` imports use the explicit `./buildEnv.ts` extension (Node type-stripping requirement) — keep `allowImportingTsExtensions` in tsconfig and don't "fix" the extension away.
+- The executer spawns `node_modules/next/dist/bin/next` with `process.execPath` so all four PMs (bun/pnpm/npm/yarn) get identical behavior; keep package-manager-specific logic out of it.

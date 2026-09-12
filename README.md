@@ -31,6 +31,25 @@ yarn install && yarn dev        # yarn
 pnpm build && pnpm typecheck && pnpm lint && pnpm test:unit
 ```
 
+### scripts/executer.ts（環境に応じた bundler 切り替え）
+
+`dev` / `build` / `start` は `scripts/executer.ts` 経由で走る。起動環境を判定し、
+
+- **Termux / PRoot-Distro** → `next build --webpack`（Turbopack が不安定なため）
+- **それ以外** → Turbopack（Next 16 デフォルト、filesystem cache 有効）
+
+に切り替え、`.next/cache` を `.cache/m3e-build/next-cache/{webpack,turbopack}`（`M3E_CACHE_ROOT` で変更可）へ
+シンボリックリンクして **bundler 別にキャッシュを永続保存** する（2 回目以降のビルド高速化）。
+
+```bash
+pnpm build -- --webpack        # 明示的に webpack（判定より優先）
+M3E_BUNDLER=webpack pnpm build # 環境変数で強制
+node scripts/executer.ts info  # 判定結果とキャッシュ経路の確認
+```
+
+DropMod（shiratama644/DropMod）の実績スクリプトを移植（`scripts/buildEnv.ts`）。Next の設定は
+webpack キャッシュ永続化のため `next.config.mjs`（`.ts` 不可 — 理由はこのファイル冒頭のコメント）。
+
 ## 構成
 
 | パス                       | 役割                                                                                                                                                          |
@@ -39,7 +58,7 @@ pnpm build && pnpm typecheck && pnpm lint && pnpm test:unit
 | `src/lib/gen/`             | コード生成。`generateFiles(config, framework, pm)` で 4FW × 4PM のファイル群を返す。`pm.ts` に PM コマンド表、`highlight.ts` に依存ゼロ構文ハイライト         |
 | `src/components/m3e/`      | サイト自身も M3E で作っているデモ/共通コンポーネント（ボタン・スライダー・カード等）                                                                          |
 | `src/components/studio/`   | Studio の状態（`state.ts`）、コントロール、プレビュー、コードパネル、ZIP                                                                                      |
-| `src/app/`                 | `/`（ランディング）`/studio` `/docs` `/tokens`（リファレンス）                                                                                                |
+| `src/app/`                 | `/`（ランディング）`/studio` `/docs` `/tokens`（リファレンス）`/presets`                                                                                                |
 | `.github/workflows/ci.yml` | pnpm フル検証 + Node 24 × 4 PM の install+build マトリクス                                                                                                    |
 
 ## 技術メモ
