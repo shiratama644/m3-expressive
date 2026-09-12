@@ -38,7 +38,11 @@ export function stateToParams(state: StudioState): string {
   ) => {
     if (value !== dflt) sp.set(KEYS[key], String(value));
   };
-  set('seed', config.seed.toLowerCase(), DEFAULT_CONFIG.seed.toLowerCase());
+  set(
+    'seed',
+    config.seed.replace('#', '').toLowerCase(),
+    DEFAULT_CONFIG.seed.replace('#', '').toLowerCase(),
+  );
   set('variant', config.variant, DEFAULT_CONFIG.variant);
   set('contrast', config.contrast, DEFAULT_CONFIG.contrast);
   set('shapeEmphasis', config.shapeEmphasis, DEFAULT_CONFIG.shapeEmphasis);

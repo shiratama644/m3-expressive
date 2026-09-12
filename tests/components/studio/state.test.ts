@@ -5,6 +5,11 @@ describe('studio URL codec', () => {
   it('omits defaults', () => {
     expect(stateToParams(DEFAULT_STATE)).toBe('');
   });
+  it('emits the seed without the # (URL-safe)', () => {
+    const state = { ...DEFAULT_STATE, config: { ...DEFAULT_STATE.config, seed: '#B3261E' } };
+    expect(stateToParams(state)).toBe('s=b3261e');
+    expect(paramsToState('s=b3261e').config.seed).toBe('#b3261e');
+  });
   it('round-trips arbitrary configs', () => {
     const state = {
       config: {
