@@ -1,0 +1,34 @@
+---
+name: project-overview
+description: What m3-expressive is, its stack, repo conventions, and progress — first read for a new session.
+last_updated: 2026-09-12
+---
+
+# Project overview
+
+## 1. Product
+
+M3E Studio — a Next.js site that generates Material 3 Expressive themes (color/shape/typography/motion) from one seed color, with live preview and export for **Next.js / React / Vue / Tailwind CSS** × **bun / pnpm / npm / yarn** (16 combos). Routes: `/` landing, `/studio` (controls + preview + Code tab), `/docs`, `/tokens`.
+
+## 2. Stack & hard constraints
+
+- Next 16 + React 19 + Tailwind v4 + TS strict. Node **24 LTS** only (`.nvmrc`, `engines >=24`).
+- Deps **exact-pinned**, single `pnpm-lock.yaml`, **no `packageManager` field** (intentional). CI matrix runs install+build on all 4 PMs (Node 24).
+- Fonts self-hosted via Fontsource npm (sandbox egress blocks Google Fonts CDN — keep it that way).
+- No E2E suite; unit tests = vitest (`src/**/*.test.ts`, 54 tests). Generated output has ZERO runtime npm deps.
+- No material-web library — M3E components are hand-rolled (upstream doesn't support M3E).
+
+## 3. Data flow (single source of truth!)
+
+`M3EConfig` (lib/m3e/config.ts) → `buildTheme` → `ThemeBundle` → `renderThemeCss` / `tokensFromBundle` / `generateFiles`. Studio state (`components/studio/state.ts`) is a superset (mode/tab + config) serialized to URL params by `stateToParams`. Never render colors outside this chain.
+
+## 4. Progress
+
+GEN-1..GEN-7 done (engine a55b1cc, codegen 5bf1f03, studio + pages + CI 2026-09-12). GEN-8 in progress: README/skills/log written, push + optional PR pending user decision. See `docs/task-list.md`.
+
+## 5. Environment quirks (sandbox)
+
+- Egress: only registry.npmjs.org + github.com + api.github.com. `registry.yarnpkg.com` unreachable → test yarn with `--registry https://registry.npmjs.org`.
+- Local Node is 22 (24 unobtainable) → `yarn run` refuses (engines). CI on 24 is unaffected.
+- `pnpm typecheck` needs `pnpm build` first (typed routes).
+- ESLint (Next 16) enables `react-hooks/set-state-in-effect`: read URL via server `searchParams`, only WRITE it in effects.
