@@ -186,7 +186,6 @@ export interface CssOptions {
 }
 
 export function renderThemeCss(bundle: ThemeBundle, opts: CssOptions): string {
-  const p = prefixFor(bundle.config.naming);
   const lines: string[] = [];
   lines.push(varBlock({ ...bundle.shared, ...bundle.light }, ':root'));
   if (opts.darkMode === 'class') {
@@ -206,14 +205,51 @@ export function renderThemeCss(bundle: ThemeBundle, opts: CssOptions): string {
   );
   let css = lines.join('\n\n') + '\n';
   if (opts.tailwindTheme) {
-    const colorVarPrefix = `--${p}-color-`;
-    const themeVars = Object.keys({ ...bundle.shared, ...bundle.light })
-      .filter((k) => k.startsWith(colorVarPrefix))
-      .map((k) => `  --color-${k.slice(colorVarPrefix.length)}: var(${k});`)
-      .join('\n');
-    css = `@theme inline {\n${themeVars}\n}\n\n` + css;
+    css = renderTailwindThemeBlock(bundle) + '\n' + css;
   }
   return css;
+}
+
+/** Tailwind v4 `@theme inline` mapping: colors, radii, fonts, text styles → utilities */
+export function renderTailwindThemeBlock(bundle: ThemeBundle): string {
+  const p = prefixFor(bundle.config.naming);
+  const colorVarPrefix = `--${p}-color-`;
+  const out: string[] = [];
+  const colors = Object.keys({ ...bundle.shared, ...bundle.light })
+    .filter((k) => k.startsWith(colorVarPrefix))
+    .map((k) => `  --color-${k.slice(colorVarPrefix.length)}: var(${k});`)
+    .join('\n');
+  out.push(colors);
+
+  const radii = Object.keys(bundle.shared)
+    .filter((k) => k.startsWith(`--${p}-shape-corner-`))
+    .map((k) => `  --radius-${k.slice(`--${p}-shape-corner-`.length)}: var(${k});`)
+    .join('\n');
+  out.push(radii);
+
+  // component + named shapes (button, card, sheet, pill, …) as rounded-* utilities
+  const shapePrefix = `--${p}-shape-`;
+  const cornerPrefix = `--${p}-shape-corner-`;
+  const extras = Object.keys(bundle.shared)
+    .filter((k) => k.startsWith(shapePrefix) && !k.startsWith(cornerPrefix))
+    .map((k) => `  --radius-${k.slice(shapePrefix.length)}: var(${k});`)
+    .join('\n');
+  out.push(extras);
+
+  const fonts = `  --font-sans: var(--${p}-font-plain);\n  --font-brand: var(--${p}-font-brand);`;
+  out.push(fonts);
+
+  const text = TYPE_ROLES.map((role) => {
+    return [
+      `  --text-${role}: var(--${p}-typescale-${role}-size);`,
+      `  --text-${role}--line-height: var(--${p}-typescale-${role}-line-height);`,
+      `  --text-${role}--letter-spacing: var(--${p}-typescale-${role}-letter-spacing);`,
+      `  --text-${role}--font-weight: var(--${p}-typescale-${role}-weight);`,
+    ].join('\n');
+  }).join('\n');
+  out.push(text);
+
+  return `@theme inline {\n${out.filter(Boolean).join('\n\n')}\n}`;
 }
 
 export function varsAsReactInline(bundle: ThemeBundle, mode: 'light' | 'dark'): string {
