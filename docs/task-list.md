@@ -55,7 +55,7 @@
 | GEN-11 | tokens.json インポート & Style Dictionary/Compose/XML 出力        | ✅                | 100% | GEN-5    | 往復パース（round-trip test）・追加ファイルが ZIP に含まれる         | 10 tests 追加                                                                      |
 | GEN-12 | Studio: A11y 未達行のワンクリック修復                             | ✅                | 100% | GEN-9    | 未達時に contrast 自動提案、適用で失敗減/ゼロ                        | 80 tests（修復の単調性・整合性）                                                   |
 | GEN-13 | テストの tests/ 再編（ルートミラー）+ Vitest 5.0.0 据付           | ✅                | 100% | —        | 全テスト `_tests_/` 配下（GEN-16 でリネーム）・@/ 参照・vitest include 更新                   | 80 tests 緑                                                                        |
-| GEN-14 | Playwright e2e スイート（`_tests_/e2e/app/*`）+ CI job            | ✅                | 100% | GEN-13   | 15 e2e spec、CI e2e 14/15 緑、最後の aria-label 修正は push 済み          | 最終 run の 15/15 成否のみトークン失効で未確認 |
+| GEN-14 | Playwright e2e スイート（`_tests_/e2e/app/*`）+ CI job            | ✅                | 100% | GEN-13   | 15 e2e spec、CI 全緑（45e0da5: E2E success 確認済み・run 34678997402）     | aria-label 修正で 15/15 が緑に確定 |
 | GEN-15 | Tooling: ESLint+Prettier → Biome 2（lint/format/organize-imports） | ✅                | 100% | GEN-13   | `biome check .` 71 files clean・`format:check` 緑・全ファイル整形済み        | eslint/prettier 設定と devDeps 削除、lockfile 同期済み |
 | GEN-16 | tests/ → `_tests_/` リネーム（vitest/playwright 設定追随）        | ✅                | 100% | GEN-13   | unit 81/81・`playwright test --list` 15 件（リネーム後）                     | skills/docs 追随済み |
 | GEN-17 | Vitest カバレッジ 90% 目標（設定+計画のみ・増強は次段階）         | ✅                | 100% | GEN-15   | `test:coverage` 実測 55.0% → `docs/planning/COVERAGE_PLAN.md`（M1〜M4）     | thresholds は意図的に未設定（M4 で 90 化） |
