@@ -53,6 +53,7 @@
 | GEN-9  | Studio: WCAG 2.2 コントラスト検査                                 | ✅     | 100% | GEN-4    | 全ロールペアの比を light/dark で表示、基準切替（AA/AA-large/AAA）    | 12 tests、テキスト全ペア AA pass                                                   |
 | GEN-10 | /presets ギャラリー + IndexedDB（Dexie）保存                      | ✅     | 100% | GEN-4    | 10 シード表示・保存/読込/削除・共有リンク                            | `/presets` 200、Save/My themes 実装                                                |
 | GEN-11 | tokens.json インポート & Style Dictionary/Compose/XML 出力        | ✅     | 100% | GEN-5    | 往復パース（round-trip test）・追加ファイルが ZIP に含まれる         | 10 tests 追加                                                                      |
+| GEN-12 | Studio: A11y 未達行のワンクリック修復                             | ✅     | 100% | GEN-9    | 未達時に contrast 自動提案、適用で失敗減/ゼロ                        | 80 tests（修復の単調性・整合性）                                                   |
 
 ---
 
