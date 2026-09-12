@@ -90,15 +90,21 @@ jobs:
       - name: e2e
         run: |
           set +e
-          PLAYWRIGHT_JSON_OUTPUT_NAME=results.json pnpm test:e2e --reporter=line --reporter=json > e2e-console.log 2>&1
+          PLAYWRIGHT_JSON_OUTPUT_NAME=results.json pnpm test:e2e --reporter=json > e2e-console.log 2>&1
           code=$?
           if [ "$code" -ne 0 ]; then
-            tail -60 e2e-console.log
-            msg=$(node -e "const r=require('./results.json');const out=[];for(const su of r.suites||[])for(const s2 of su.suites||[])for(const sp of s2.specs||[])for(const t of sp.tests||[])for(const res of t.results||[])if(res.status!=='passed')out.push(sp.title+' :: '+((res.error&&res.error.message)||res.status));console.log(out.slice(0,4).join(' ||| ').split(String.fromCharCode(10)).join(' / ').slice(0,1400))" 2>/dev/null)
-            if [ -z "$msg" ]; then
-              msg=$(grep -m4 -F 'Error:' e2e-console.log | head -c 900)
+            msg=""
+            if [ -f results.json ]; then
+              msg=$(node -e "const r=require('./results.json');const out=[];for(const su of r.suites||[])for(const s2 of su.suites||[])for(const sp of s2.specs||[])for(const t of sp.tests||[])for(const res of t.results||[])if(res.status!=='passed')out.push(sp.title+' :: '+((res.error&&res.error.message)||res.status));console.log(out.slice(0,4).join(' ||| '))" 2>/dev/null)
             fi
-            msg=$(printf '%s' "$msg" | tr '%' '#' | tr -d '\r')
+            if [ -z "$msg" ]; then
+              msg=$(grep -oE "Error:.{0,160}" e2e-console.log | head -4)
+            fi
+            if [ -z "$msg" ]; then
+              msg=$(tail -20 e2e-console.log)
+            fi
+            msg=$(printf '%s' "$msg" | tr -d '\r' | tr '\n' ' | ' | head -c 1400 | tr '%' '#')
+            echo "ANNOTATION: $msg"
             echo "::error title=Playwright failures::$msg"
           fi
           exit "$code"
