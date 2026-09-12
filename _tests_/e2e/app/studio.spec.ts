@@ -44,8 +44,8 @@ test.describe('studio /studio', () => {
       const setter = Object.getOwnPropertyDescriptor(
         window.HTMLInputElement.prototype,
         'value',
-      )!.set!;
-      setter.call(el, '#00e676');
+      )?.set;
+      setter?.call(el, '#00e676');
       el.dispatchEvent(new Event('input', { bubbles: true }));
     });
     await expect.poll(() => page.url()).toContain('s=00e676');

@@ -1,6 +1,6 @@
-import { Hct, argbFromHex } from '@material/material-color-utilities';
+import { argbFromHex, Hct } from '@material/material-color-utilities';
 import { describe, expect, it } from 'vitest';
-import { buildColorSchemes, normalizeColorHex, seedToHct, M3E_VARIANTS } from '@/lib/m3e/color';
+import { buildColorSchemes, M3E_VARIANTS, normalizeColorHex, seedToHct } from '@/lib/m3e/color';
 import { M3E_COLOR_ROLES } from '@/lib/m3e/roles';
 
 const SEED = '#6750A4';
@@ -92,10 +92,8 @@ describe('buildColorSchemes', () => {
     const expressive = buildColorSchemes({ seed: SEED, variant: 'expressive' });
     expect(tone(expressive.light['primary-fixed'])).toBe(78);
     expect(tone(expressive.light['primary-fixed-dim'])).toBe(73);
-    expect(tone(expressive.light['primary'])).toBe(40); // base primary tone unchanged
-    expect(tone(expressive.light['primary-fixed'])).toBeGreaterThan(
-      tone(expressive.light['primary']),
-    );
+    expect(tone(expressive.light.primary)).toBe(40); // base primary tone unchanged
+    expect(tone(expressive.light['primary-fixed'])).toBeGreaterThan(tone(expressive.light.primary));
   });
 
   it('monochrome has near-zero chroma on accent roles', () => {

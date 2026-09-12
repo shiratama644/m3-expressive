@@ -6,7 +6,7 @@ import { defineConfig, devices } from '@playwright/test';
  * In CI the e2e job builds first; locally an already-running :3100 server is reused.
  */
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: './_tests_/e2e',
   timeout: 60_000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,

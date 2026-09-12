@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { DEFAULT_CONFIG } from '@/lib/m3e/config';
 import { FRAMEWORKS, generateFiles } from '@/lib/gen';
 import { PACKAGE_MANAGERS, PM, PM_LABELS } from '@/lib/gen/pm';
+import { DEFAULT_CONFIG } from '@/lib/m3e/config';
 
 const ALL_COMBOS = FRAMEWORKS.flatMap((f) => PACKAGE_MANAGERS.map((pm) => [f, pm] as const));
 
@@ -26,14 +26,14 @@ describe('generateFiles', () => {
       const readme = files.find((f) => f.path === 'README.md');
       expect(readme, framework).toBeTruthy();
       for (const pm of PACKAGE_MANAGERS) {
-        expect(readme!.content, `${framework} missing ${pm}`).toContain(
+        expect(readme?.content, `${framework} missing ${pm}`).toContain(
           PM_LABELS[pm].toLowerCase(),
         );
       }
-      expect(readme!.content).toContain('bun add');
-      expect(readme!.content).toContain('pnpm add');
-      expect(readme!.content).toContain('npm install');
-      expect(readme!.content).toContain('yarn add');
+      expect(readme?.content).toContain('bun add');
+      expect(readme?.content).toContain('pnpm add');
+      expect(readme?.content).toContain('npm install');
+      expect(readme?.content).toContain('yarn add');
     }
   });
 
@@ -54,7 +54,7 @@ describe('generateFiles', () => {
     for (const framework of FRAMEWORKS) {
       const files = generateFiles(DEFAULT_CONFIG, framework, 'npm');
       const json = files.find((f) => f.path === 'tokens.json');
-      expect(() => JSON.parse(json!.content), framework).not.toThrow();
+      expect(() => JSON.parse(json ? json.content : 'missing file'), framework).not.toThrow();
     }
   });
 

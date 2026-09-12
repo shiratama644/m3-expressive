@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
+  cubicBezierCss,
   MOTION_DURATIONS,
   MOTION_EASINGS,
   MOTION_SPRINGS,
-  cubicBezierCss,
   solveSpring,
   springFor,
 } from '@/lib/m3e/motion';

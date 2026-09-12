@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
   NAMED_SHAPES,
-  SHAPE_FULL_PX,
-  SHAPE_SIZES,
   namedShapeCss,
   radiusCss,
+  SHAPE_FULL_PX,
+  SHAPE_SIZES,
   shapeSizePx,
 } from '@/lib/m3e/shape';
 

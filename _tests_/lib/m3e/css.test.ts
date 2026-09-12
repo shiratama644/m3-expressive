@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { buildTheme, renderThemeCss, varBlock, varsAsReactInline } from '@/lib/m3e/css';
 import { DEFAULT_CONFIG } from '@/lib/m3e/config';
+import { buildTheme, renderThemeCss, varBlock, varsAsReactInline } from '@/lib/m3e/css';
 import { M3E_COLOR_ROLES } from '@/lib/m3e/roles';
 import { TYPE_ROLES } from '@/lib/m3e/typography';
 
@@ -45,7 +45,7 @@ describe('buildTheme', () => {
 
   it('provides tonal palettes for swatches', () => {
     expect(bundle.tonal.map((t) => t.name)).toContain('primary');
-    expect(bundle.tonal.find((t) => t.name === 'primary')!.tones).toHaveLength(13);
+    expect(bundle.tonal.find((t) => t.name === 'primary')?.tones).toHaveLength(13);
   });
 });
 
