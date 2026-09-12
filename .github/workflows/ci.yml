@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '24'
+  PNPM_VERSION: '12.4.1'
+
+jobs:
+  quality:
+    name: Quality (Node 24 / pnpm)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      # build first: it generates the typed-route definitions that `tsc` needs
+      - run: pnpm build
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm test:unit
+
+  pm-matrix:
+    name: Install + Build (Node ${{ matrix.node-version }} / ${{ matrix.pm }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [24]
+        pm: [bun, pnpm, npm, yarn]
+    steps:
+      - uses: actions/checkout@v5
+      - if: matrix.pm == 'bun'
+        uses: oven-sh/setup-bun@v2
+      - if: matrix.pm == 'pnpm'
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node-version }}
+          # no lockfile for npm/yarn in this repo (single pnpm lock) → no cache there
+          cache: ${{ matrix.pm == 'pnpm' && 'pnpm' || '' }}
+          yarn-version: '1.22.22'
+      - name: install
+        run: |
+          case "${{ matrix.pm }}" in
+            bun)  bun install ;;
+            pnpm) pnpm install --frozen-lockfile ;;
+            npm)  npm install --no-audit --no-fund ;;
+            yarn) yarn install ;;
+          esac
+      - name: build
+        run: |
+          case "${{ matrix.pm }}" in
+            bun)  bun run build ;;
+            pnpm) pnpm run build ;;
+            npm)  npm run build ;;
+            yarn) yarn build ;;
+          esac
