@@ -20,7 +20,7 @@ test.describe('studio /studio', () => {
     await page.goto('/studio');
     await page.getByRole('button', { name: 'Code' }).click();
     await expect(page.getByText('app/globals.css').first()).toBeVisible();
-    await page.getByRole('button', { name: 'Vue 3 + Vite + Tailwind v4' }).click();
+    await page.locator('button:has-text("Vue 3 + Vite + Tailwind v4")').click();
     await expect(page.getByText('src/composables/useM3eTheme.ts')).toBeVisible();
     await page.getByRole('button').filter({ hasText: 'README.md' }).click();
     await expect(page.getByText('pnpm add', { exact: false }).first()).toBeVisible();
