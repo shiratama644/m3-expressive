@@ -22,7 +22,7 @@ export function M3Slider({
   return (
     <label className="block w-full select-none">
       {label && (
-        <span className="t-label-large mb-1 flex items-center justify-between text-on-surface-variant">
+        <span className="t-label-large text-on-surface-variant mb-1 flex items-center justify-between">
           {label}
           <span className="t-label-medium text-on-surface">{Math.round(pct)}%</span>
         </span>
@@ -33,7 +33,7 @@ export function M3Slider({
         max={max}
         value={value}
         onChange={(e) => onChange?.(Number(e.target.value))}
-        className="m3e-slider h-10 w-full cursor-pointer appearance-none bg-transparent"
+        className={`m3e-slider h-10 w-full cursor-pointer appearance-none bg-transparent ${showHandleIcon ? '' : 'm3e-slider-flat'}`}
         style={{
           // filled track + flat remainder (M3E slider "center" style with icon handle)
           // @ts-expect-error custom property
@@ -41,21 +41,19 @@ export function M3Slider({
         }}
         aria-label={label}
       />
-      {showHandleIcon && (
-        <style>{`
-          .m3e-slider::-webkit-slider-runnable-track { height: 16px; border-radius: 9999px; background: linear-gradient(to right, var(--m3e-color-primary) var(--m3e-slider-pct), var(--m3e-color-surface-container-highest) var(--m3e-slider-pct)); }
-          .m3e-slider::-webkit-slider-thumb { appearance: none; width: 26px; height: 26px; margin-top: -5px; border-radius: 9999px; background: var(--m3e-color-primary); border: 3px solid var(--m3e-color-on-primary); box-shadow: 0 1px 3px rgb(0 0 0 / .28); transition: transform var(--m3e-motion-spring-fast-spatial-duration) var(--m3e-motion-spring-fast-spatial-easing); }
-          .m3e-slider:active::-webkit-slider-thumb { transform: scale(1.35); }
-          .m3e-slider::-moz-range-track { height: 16px; border-radius: 9999px; background: var(--m3e-color-surface-container-highest); }
-          .m3e-slider::-moz-range-progress { height: 16px; border-radius: 9999px; background: var(--m3e-color-primary); }
-          .m3e-slider::-moz-range-thumb { width: 22px; height: 22px; border-radius: 9999px; background: var(--m3e-color-primary); border: 3px solid var(--m3e-color-on-primary); }
-        `}</style>
-      )}
     </label>
   );
 }
 
-export function M3Switch({ checked, onChange, label }: { checked: boolean; onChange?: (v: boolean) => void; label?: string }) {
+export function M3Switch({
+  checked,
+  onChange,
+  label,
+}: {
+  checked: boolean;
+  onChange?: (v: boolean) => void;
+  label?: string;
+}) {
   return (
     <button
       type="button"
@@ -66,16 +64,14 @@ export function M3Switch({ checked, onChange, label }: { checked: boolean; onCha
     >
       <span
         className={`m3e-press relative flex h-8 w-13 items-center justify-start rounded-(--m3e-shape-switch) border-2 px-0.5 ${
-          checked
-            ? 'border-primary bg-primary'
-            : 'border-outline bg-surface-container-highest'
+          checked ? 'border-primary bg-primary' : 'border-outline bg-surface-container-highest'
         } group-hover:shadow-sm`}
       >
         <span
           className={`m3e-press flex items-center justify-center rounded-(--m3e-shape-switch) transition-transform ${
             checked
-              ? 'translate-x-5 bg-on-primary text-primary'
-              : 'translate-x-0 bg-outline text-on-surface-variant h-4 w-4'
+              ? 'bg-on-primary text-primary translate-x-5'
+              : 'bg-outline text-on-surface-variant h-4 w-4 translate-x-0'
           } ${checked ? 'h-6 w-6' : ''}`}
         >
           {checked && <Icon name="check" className="text-[14px]" />}
@@ -86,20 +82,30 @@ export function M3Switch({ checked, onChange, label }: { checked: boolean; onCha
   );
 }
 
-export function M3FilterChip({ label, icon, initial = false }: { label: string; icon?: string; initial?: boolean }) {
+export function M3FilterChip({
+  label,
+  icon,
+  initial = false,
+}: {
+  label: string;
+  icon?: string;
+  initial?: boolean;
+}) {
   const [on, setOn] = useState(initial);
   return (
     <button
       type="button"
       aria-pressed={on}
       onClick={() => setOn((v) => !v)}
-      className={`m3e-press inline-flex h-8 items-center gap-1.5 overflow-hidden rounded-(--m3e-shape-chip) border px-3 t-label-large active:scale-95 ${
+      className={`m3e-press t-label-large inline-flex h-8 items-center gap-1.5 overflow-hidden rounded-(--m3e-shape-chip) border px-3 active:scale-95 ${
         on
           ? 'border-outline-variant bg-secondary-container text-on-secondary-container'
           : 'border-outline-variant bg-surface text-on-surface-variant hover:bg-on-surface/8'
       }`}
     >
-      <span className={`m3e-press overflow-hidden transition-all ${on ? 'w-[18px] opacity-100' : 'w-0 opacity-0'}`}>
+      <span
+        className={`m3e-press overflow-hidden transition-all ${on ? 'w-[18px] opacity-100' : 'w-0 opacity-0'}`}
+      >
         <Icon name="check" className="text-[18px]" />
       </span>
       {!on && icon && <Icon name={icon} className="text-[18px]" />}
@@ -110,11 +116,11 @@ export function M3FilterChip({ label, icon, initial = false }: { label: string; 
 
 export function M3SearchBar() {
   return (
-    <div className="m3e-press flex h-14 items-center gap-3 rounded-(--m3e-shape-search-bar) bg-surface-container-high px-4 focus-within:ring-2 focus-within:ring-primary">
+    <div className="m3e-press bg-surface-container-high focus-within:ring-primary flex h-14 items-center gap-3 rounded-(--m3e-shape-search-bar) px-4 focus-within:ring-2">
       <Icon name="search" className="text-on-surface-variant" />
       <input
         placeholder="Search artists, songs, podcasts"
-        className="t-body-large w-full bg-transparent text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none"
+        className="t-body-large text-on-surface placeholder:text-on-surface-variant/70 w-full bg-transparent focus:outline-none"
       />
       <Icon name="mic" className="text-on-surface-variant" />
     </div>

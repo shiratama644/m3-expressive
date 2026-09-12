@@ -22,7 +22,9 @@ export function M3Card({
     outlined: 'bg-surface border border-outline-variant',
   } as const;
   return (
-    <div className={`m3e-spatial group flex w-56 shrink-0 flex-col overflow-hidden rounded-(--m3e-shape-card) ${looks[variant]}`}>
+    <div
+      className={`m3e-spatial group flex w-56 shrink-0 flex-col overflow-hidden rounded-(--m3e-shape-card) ${looks[variant]}`}
+    >
       {media}
       <div className="flex flex-1 flex-col gap-1 p-4">
         {subtitle && <p className="t-label-medium text-on-surface-variant">{subtitle}</p>}
@@ -46,7 +48,7 @@ export function M3CardCarousel() {
       {items.map((item) => (
         <div
           key={item.title}
-          className="m3e-spatial w-40 shrink-0 snap-center overflow-hidden rounded-(--m3e-shape-carousel-item) bg-surface-container-low shadow-sm transition-transform hover:-translate-y-1"
+          className="m3e-spatial bg-surface-container-low w-40 shrink-0 snap-center overflow-hidden rounded-(--m3e-shape-carousel-item) shadow-sm transition-transform hover:-translate-y-1"
         >
           <div
             className="h-28 w-full"
@@ -70,7 +72,7 @@ export function M3LoadingIndicator({ size = 48 }: { size?: number }) {
     <span
       role="progressbar"
       aria-label="Loading"
-      className="block bg-primary"
+      className="bg-primary block"
       style={{
         width: size,
         height: size,
@@ -84,8 +86,8 @@ export function M3LoadingIndicator({ size = 48 }: { size?: number }) {
 export function M3LinearProgress({ value }: { value?: number }) {
   if (value !== undefined) {
     return (
-      <div className="h-1 w-full overflow-hidden rounded-(--m3e-shape-progress) bg-surface-container-highest">
-        <div className="h-full rounded-r-full bg-primary" style={{ width: `${value}%` }} />
+      <div className="bg-surface-container-highest h-1 w-full overflow-hidden rounded-(--m3e-shape-progress)">
+        <div className="bg-primary h-full rounded-r-full" style={{ width: `${value}%` }} />
       </div>
     );
   }
@@ -106,10 +108,13 @@ export function M3LinearProgress({ value }: { value?: number }) {
 
 export function M3Toast({ label, action }: { label: string; action?: string }) {
   return (
-    <div className="m3e-pop inline-flex h-12 items-center gap-4 rounded-(--m3e-shape-snackbar) bg-inverse-surface pl-4 pr-2 text-inverse-on-surface shadow-md">
+    <div className="m3e-pop bg-inverse-surface text-inverse-on-surface inline-flex h-12 items-center gap-4 rounded-(--m3e-shape-snackbar) pr-2 pl-4 shadow-md">
       <span className="t-label-large">{label}</span>
       {action && (
-        <button type="button" className="t-label-large rounded-(--m3e-shape-button) px-2 py-1 text-inverse-primary hover:bg-inverse-primary/10">
+        <button
+          type="button"
+          className="t-label-large text-inverse-primary hover:bg-inverse-primary/10 rounded-(--m3e-shape-button) px-2 py-1"
+        >
           {action}
         </button>
       )}
@@ -121,7 +126,7 @@ export function M3Badge({ children, value = 3 }: { children: ReactNode; value?: 
   return (
     <span className="relative inline-flex">
       {children}
-      <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-(--m3e-shape-badge) bg-error px-1 text-[10px] font-bold text-on-error">
+      <span className="bg-error text-on-error absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-(--m3e-shape-badge) px-1 text-[10px] font-bold">
         {value}
       </span>
     </span>
@@ -130,8 +135,8 @@ export function M3Badge({ children, value = 3 }: { children: ReactNode; value?: 
 
 export function M3MiniPlayer() {
   return (
-    <div className="flex items-center gap-3 rounded-(--m3e-shape-sheet) bg-secondary-container p-3 text-on-secondary-container">
-      <div className="h-11 w-11 rounded-(--m3e-shape-extra-small) bg-gradient-to-br from-primary to-tertiary" />
+    <div className="bg-secondary-container text-on-secondary-container flex items-center gap-3 rounded-(--m3e-shape-sheet) p-3">
+      <div className="from-primary to-tertiary h-11 w-11 rounded-(--m3e-shape-extra-small) bg-gradient-to-br" />
       <div className="min-w-0 flex-1">
         <p className="t-title-small truncate">Coral Dust — Slow Motion</p>
         <p className="t-body-small opacity-70">Kanae &amp; The Tides</p>

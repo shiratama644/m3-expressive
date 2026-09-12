@@ -12,7 +12,7 @@ const NAV = [
 export function SiteHeader() {
   const pathname = usePathname();
   return (
-    <header className="sticky top-0 z-40 border-b border-outline-variant/60 bg-surface/85 backdrop-blur-md">
+    <header className="border-outline-variant/60 bg-surface/85 sticky top-0 z-40 border-b backdrop-blur-md">
       <div className="mx-auto flex h-16 w-full max-w-350 items-center gap-6 px-4 sm:px-6">
         <Link href="/" className="group flex items-center gap-3">
           <Logo />
@@ -42,7 +42,7 @@ export function SiteHeader() {
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub repository"
-            className="ml-1 hidden rounded-full p-2 text-on-surface-variant transition-colors duration-(--m3e-motion-duration-short2) hover:bg-on-surface/8 sm:block"
+            className="text-on-surface-variant hover:bg-on-surface/8 ml-1 hidden rounded-full p-2 transition-colors duration-(--m3e-motion-duration-short2) sm:block"
           >
             <span className="material-symbols-rounded block">code</span>
           </a>
@@ -54,7 +54,13 @@ export function SiteHeader() {
 
 function Logo() {
   return (
-    <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden className="transition-transform duration-(--m3e-motion-duration-medium2) group-hover:rotate-[24deg]">
+    <svg
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      aria-hidden
+      className="transition-transform duration-(--m3e-motion-duration-medium2) group-hover:rotate-[24deg]"
+    >
       <defs>
         <linearGradient id="m3e-logo-g" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="var(--m3e-color-primary)" />
