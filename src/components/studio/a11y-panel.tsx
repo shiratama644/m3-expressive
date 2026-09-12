@@ -1,7 +1,14 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { auditTheme, A11Y_LEVELS, A11Y_LEVEL_LABELS, type A11yLevel } from '@/lib/m3e/a11y';
+import {
+  auditTheme,
+  A11Y_LEVELS,
+  A11Y_LEVEL_LABELS,
+  advisoryNotes,
+  findFixContrast,
+  type A11yLevel,
+} from '@/lib/m3e/a11y';
 import type { ThemeBundle } from '@/lib/m3e/css';
 import { prefixFor } from '@/lib/m3e/config';
 import { Icon } from '@/components/m3e/actions';
@@ -36,11 +43,22 @@ function RatioCell({ ratio, min, bg, fg }: { ratio: number; min: number; bg: str
   );
 }
 
-export function A11yPanel({ bundle }: { bundle: ThemeBundle }) {
+export function A11yPanel({
+  bundle,
+  onFixContrast,
+}: {
+  bundle: ThemeBundle;
+  onFixContrast: (contrast: number) => void;
+}) {
   const [level, setLevel] = useState<A11yLevel>('AA');
   const [onlyFailures, setOnlyFailures] = useState(false);
   const p = prefixFor(bundle.config.naming);
   const report = useMemo(() => auditTheme(bundle, level), [bundle, level]);
+  const fix = useMemo(
+    () => (report.failures > 0 ? findFixContrast(bundle.config, level) : null),
+    [report.failures, bundle.config, level],
+  );
+  const advisories = useMemo(() => advisoryNotes(bundle, level), [bundle, level]);
   const rows = onlyFailures ? report.rows.filter((r) => !r.passLight || !r.passDark) : report.rows;
 
   return (
@@ -85,9 +103,31 @@ export function A11yPanel({ bundle }: { bundle: ThemeBundle }) {
         >
           <Icon name={report.failures === 0 ? 'verified' : 'report'} className="text-[18px]" />
           {report.failures === 0
-            ? `${report.total} ペアすべて基準以上`
+            ? `${report.total} ペアすべて基準以上${advisories > 0 ? ` · 参考 ${advisories}` : ''}`
             : `${report.total} ペア中 ${report.failures} ペアが基準未達`}
         </div>
+        {report.failures > 0 && (
+          <button
+            type="button"
+            disabled={fix === null}
+            title={
+              fix === null
+                ? 'コントラストを上げても normative な未達数は減りませんでした（設定上の限界です）'
+                : fix.clearsAll
+                  ? `contrast を ${fix.contrast} に引き上げて全ペアをクリアします`
+                  : `contrast ${fix.contrast} で未達を ${report.failures} → ${fix.remaining} に削減（残りは設定上の限界の可能性があります）`
+            }
+            onClick={() => fix !== null && onFixContrast(fix.contrast)}
+            className="m3e-press bg-tertiary t-label-large text-on-tertiary flex items-center gap-1.5 rounded-(--m3e-shape-button) px-4 py-1.5 hover:brightness-110 disabled:opacity-50"
+          >
+            <Icon name={fix === null ? 'block' : 'auto_fix_high'} className="text-[18px]" />
+            {fix === null
+              ? '自動修復不可'
+              : fix.clearsAll
+                ? `自動修復 → contrast ${fix.contrast}`
+                : `改善 → contrast ${fix.contrast}（残り ${fix.remaining}）`}
+          </button>
+        )}
       </div>
 
       <p className="t-body-small text-on-surface-variant max-w-3xl">
@@ -132,6 +172,7 @@ export function A11yPanel({ bundle }: { bundle: ThemeBundle }) {
                     }`}
                   >
                     {r.pair.usage}
+                    {r.pair.advisory && ' · 参考'}
                   </span>
                 </td>
                 <td className="text-on-surface-variant px-3 py-2 align-top font-mono text-[12px]">

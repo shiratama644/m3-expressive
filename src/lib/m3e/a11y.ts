@@ -1,4 +1,5 @@
-import { prefixFor } from './config';
+import { prefixFor, type M3EConfig } from './config';
+import { buildTheme } from './css';
 import type { ThemeBundle } from './css';
 import { M3E_COLOR_ROLES, type M3EColorRole } from './roles';
 
@@ -17,6 +18,12 @@ export interface A11yPair {
   usage: A11yUsage;
   /** human note shown in the report */
   note: string;
+  /**
+   * Informational only: M3's tonal system intentionally keeps some pairs low
+   * (containers vs background). Advisory rows never count as failures and
+   * never block the auto-fix.
+   */
+  advisory?: boolean;
 }
 
 /** fg on bg pairs, per WCAG 2.2 (SC 1.4.3 / 1.4.6 text, 1.4.11 non-text). */
@@ -102,7 +109,8 @@ export const A11Y_PAIRS: readonly A11yPair[] = [
     fg: 'primary',
     bg: 'primary-container',
     usage: 'ui',
-    note: 'Icon inside tonal button',
+    note: 'Icon inside tonal button — M3 uses on-primary-container icons here, so this is advisory',
+    advisory: true,
   },
   {
     fg: 'outline',
@@ -110,7 +118,13 @@ export const A11Y_PAIRS: readonly A11yPair[] = [
     usage: 'ui',
     note: 'Outlined control border',
   },
-  { fg: 'primary-container', bg: 'surface', usage: 'ui', note: 'Tonal surface on background' },
+  {
+    fg: 'primary-container',
+    bg: 'surface',
+    usage: 'ui',
+    note: 'Tonal surface on background — intentionally soft in M3 (advisory)',
+    advisory: true,
+  },
   {
     fg: 'inverse-primary',
     bg: 'inverse-surface',
@@ -190,8 +204,16 @@ export function auditTheme(bundle: ThemeBundle, level: A11yLevel = 'AA'): A11yRe
     const min = minRatio(pair.usage, level);
     return { pair, light, dark, min, passLight: light >= min, passDark: dark >= min };
   });
-  const failures = rows.filter((r) => !r.passLight || !r.passDark).length;
-  return { rows, failures, total: rows.length };
+  const normative = rows.filter((r) => !r.pair.advisory);
+  const failures = normative.filter((r) => !r.passLight || !r.passDark).length;
+  return { rows, failures, total: normative.length };
+}
+
+/** Count of failing advisory rows (shown separately; not a norm violation). */
+export function advisoryNotes(bundle: ThemeBundle, level: A11yLevel = 'AA'): number {
+  return auditTheme(bundle, level).rows.filter(
+    (r) => r.pair.advisory && (!r.passLight || !r.passDark),
+  ).length;
 }
 
 /** Guard used by tests: every role in A11Y_PAIRS is a real, exported role. */
@@ -199,3 +221,38 @@ export const A11Y_PAIRS_CONSISTENT: boolean = (() => {
   const all = new Set<string>(M3E_COLOR_ROLES as readonly string[]);
   return A11Y_PAIRS.every((p) => all.has(p.fg) && all.has(p.bg));
 })();
+
+const round2 = (n: number): number => Math.round(n * 100) / 100;
+
+export interface ContrastFix {
+  /** contrast value to apply */
+  contrast: number;
+  /** true when the proposal makes every normative pair pass */
+  clearsAll: boolean;
+  /** remaining normative failures after applying */
+  remaining: number;
+}
+
+/**
+ * Best-effort one-click fix: sweep contrast upward (+0.05 up to 1.0) and pick
+ * the smallest value with the fewest normative failures. Null when already
+ * passing or when no contrast value improves the situation.
+ */
+export function findFixContrast(
+  config: M3EConfig,
+  level: A11yLevel = 'AA',
+  step = 0.05,
+): ContrastFix | null {
+  const baseline = auditTheme(buildTheme(config), level).failures;
+  if (baseline === 0) return null;
+  let best: ContrastFix | null = null;
+  for (let c = round2(Math.max(0, config.contrast)) + step; c <= 1 + 1e-9; c += step) {
+    const contrast = round2(c);
+    const f = auditTheme(buildTheme({ ...config, contrast }), level).failures;
+    if (f < (best?.remaining ?? baseline)) {
+      best = { contrast, clearsAll: f === 0, remaining: f };
+      if (f === 0) break;
+    }
+  }
+  return best;
+}

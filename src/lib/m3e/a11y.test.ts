@@ -4,6 +4,7 @@ import {
   A11Y_PAIRS_CONSISTENT,
   auditTheme,
   contrastRatio,
+  findFixContrast,
   minRatio,
   relativeLuminance,
 } from './a11y';
@@ -80,4 +81,33 @@ describe('auditTheme', () => {
       expect(r.light).toBeLessThanOrEqual(21);
     }
   });
+});
+
+describe('findFixContrast', () => {
+  it('returns null when the theme already passes (defaults, AA)', async () => {
+    const { DEFAULT_CONFIG } = await import('./config');
+    expect(findFixContrast(DEFAULT_CONFIG, 'AA')).toBeNull();
+  });
+  it('best-effort fix never increases failures and clears all when possible', async () => {
+    const { DEFAULT_CONFIG } = await import('./config');
+    const { buildTheme } = await import('./css');
+    for (const seed of ['#8c6d1f', '#0061a4'] as const) {
+      for (const level of ['AA', 'AA-large'] as const) {
+        const config = { ...DEFAULT_CONFIG, seed };
+        const before = auditTheme(buildTheme(config), level).failures;
+        const fix = findFixContrast(config, level);
+        if (before === 0) {
+          expect(fix).toBeNull();
+          continue;
+        }
+        expect(fix).not.toBeNull();
+        if (!fix) continue;
+        expect(fix.contrast).toBeGreaterThan(config.contrast);
+        expect(fix.remaining).toBeLessThan(before);
+        const after = auditTheme(buildTheme({ ...config, contrast: fix.contrast }), level).failures;
+        expect(after).toBe(fix.remaining);
+        if (fix.clearsAll) expect(after).toBe(0);
+      }
+    }
+  }, 30000);
 });

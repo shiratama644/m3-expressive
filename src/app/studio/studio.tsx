@@ -85,7 +85,7 @@ export function Studio({ initialState }: { initialState: StudioState }) {
             </div>
           ) : (
             <div className="bg-surface-container-lowest h-full overflow-auto">
-              <A11yPanel bundle={bundle} />
+              <A11yPanel bundle={bundle} onFixContrast={(c) => update({ contrast: c })} />
             </div>
           )}
         </div>
