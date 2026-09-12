@@ -94,11 +94,11 @@ jobs:
           code=$?
           if [ "$code" -ne 0 ]; then
             tail -60 e2e-console.log
-            msg=$(tr '
-' '~' < e2e-console.log | grep -o "Error[^~]*~*[^~]*" | head -4 | tr '~' ' ' | tr '%' '#' | cut -c1-1400)
-            if [ -z "$msg" ] && [ -f results.json ]; then
-              msg=$(node -e "const r=require('./results.json');const out=[];for(const su of r.suites||[])for(const s2 of su.suites||[])for(const sp of s2.specs||[])for(const t of sp.tests||[])for(const res of t.results||[])if(res.status!=='passed')out.push(sp.title+' :: '+(res.error&&res.error.message||res.status));console.log(out.slice(0,4).join(' ||| ').replace(/\\n/g,' ').slice(0,1400))" 2>/dev/null | tr '%' '#')
+            msg=$(node -e "const r=require('./results.json');const out=[];for(const su of r.suites||[])for(const s2 of su.suites||[])for(const sp of s2.specs||[])for(const t of sp.tests||[])for(const res of t.results||[])if(res.status!=='passed')out.push(sp.title+' :: '+((res.error&&res.error.message)||res.status));console.log(out.slice(0,4).join(' ||| ').split(String.fromCharCode(10)).join(' / ').slice(0,1400))" 2>/dev/null)
+            if [ -z "$msg" ]; then
+              msg=$(grep -m4 -F 'Error:' e2e-console.log | head -c 900)
             fi
+            msg=$(printf '%s' "$msg" | tr '%' '#' | tr -d '\r')
             echo "::error title=Playwright failures::$msg"
           fi
           exit "$code"
