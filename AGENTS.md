@@ -215,7 +215,7 @@ pnpm install --frozen-lockfile
   - `nodejs.org` / `unofficial-builds.nodejs.org` / `registry.npmmirror.com` / `raw.githubusercontent.com` / `objects.githubusercontent.com` / jsDelivr / Google Fonts は **TLS レベルで遮断**。
   - **Node の入れ替えは不可**（24 のバイナリ取得元が無い）→ サンドボックスでは同梱 Node 22.22.3 で検証する（Next 16 は動作する）。Node 24 での検証は GitHub Actions CI で担保する。
   - **フォントは Fontsource の npm パッケージで自己ホスト**（`@fontsource-variable/roboto-flex`, `@fontsource-variable/material-symbols-rounded`）。`next/font/google` と Google Fonts CDN はビルド時に遮断されるため**使用禁止**。
-- ブラウザバイナリのインストール不可 → Playwright 等の E2E はローカル実行しない（CI のみ or 断念）。描画確認は dev server（ライブプレビュー）と `curl` の HTTP 200/HTML 確認で行う。
+- ブラウザバイナリのインストール不可（`cdn.playwright.dev` も遮断）→ **Playwright e2e は CI の `e2e` ジョブでのみ実行**。ローカルでは `pnpm exec playwright test --list`（spec の収集・コンパイル確認）+ dev server（ライブプレビュー）+ `curl` の HTTP 200/HTML 確認で代替する。ブラウザがある環境では `pnpm exec playwright install --with-deps chromium && pnpm test:e2e` でローカル実行可能。
 - `npx create-next-app` 等の対話 CLI は `--yes` + 全フラグ指定で非対話実行する。
 
 ### 6.3 リポジトリ固有の Git 制約

@@ -148,3 +148,8 @@ next-env.d.ts
 out/
 .env*.local
 .vercel/
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

@@ -54,6 +54,8 @@
 | GEN-10 | /presets ギャラリー + IndexedDB（Dexie）保存                      | ✅     | 100% | GEN-4    | 10 シード表示・保存/読込/削除・共有リンク                            | `/presets` 200、Save/My themes 実装                                                |
 | GEN-11 | tokens.json インポート & Style Dictionary/Compose/XML 出力        | ✅     | 100% | GEN-5    | 往復パース（round-trip test）・追加ファイルが ZIP に含まれる         | 10 tests 追加                                                                      |
 | GEN-12 | Studio: A11y 未達行のワンクリック修復                             | ✅     | 100% | GEN-9    | 未達時に contrast 自動提案、適用で失敗減/ゼロ                        | 80 tests（修復の単調性・整合性）                                                   |
+| GEN-13 | テストの tests/ 再編（ルートミラー）+ Vitest 5.0.0 据付           | ✅     | 100% | —        | 全テスト tests/ 配下・@/ 参照・vitest include 更新                   | 80 tests 緑                                                                        |
+| GEN-14 | Playwright e2e スイート（tests/e2e/app/*）+ CI job                | ✅     | 100% | GEN-13   | 13 e2e spec 収集、CI e2e 緑（ローカルは egress 制約で --list のみ）  | CI 実行待ち→記録                                                                   |
 
 ---
 
