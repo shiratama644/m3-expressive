@@ -9,7 +9,7 @@ export default defineConfig({
   },
   test: {
     environment: 'node',
-    include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+    include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx'],
     // @material/material-color-utilities の scheme_*.js は拡張子なしの相対 import を使うため、
     // Node の素の ESM 解決では動かない（Vite 経由で解決させる）
     server: {

@@ -7,7 +7,7 @@ import {
   findFixContrast,
   minRatio,
   relativeLuminance,
-} from './a11y';
+} from '@/lib/m3e/a11y';
 
 describe('contrastRatio (WCAG 2.2)', () => {
   it('white on black is 21', () => {
@@ -59,8 +59,8 @@ describe('pair table', () => {
 
 describe('auditTheme', () => {
   it('all text pairs pass AA in the default expressive theme', async () => {
-    const { DEFAULT_CONFIG } = await import('./config');
-    const { buildTheme } = await import('./css');
+    const { DEFAULT_CONFIG } = await import('@/lib/m3e/config');
+    const { buildTheme } = await import('@/lib/m3e/css');
     const bundle = buildTheme(DEFAULT_CONFIG);
     const report = auditTheme(bundle, 'AA');
     const textRows = report.rows.filter((r) => r.pair.usage === 'text');
@@ -71,8 +71,8 @@ describe('auditTheme', () => {
     }
   });
   it('every hex resolves (no NaN ratios)', async () => {
-    const { DEFAULT_CONFIG } = await import('./config');
-    const { buildTheme } = await import('./css');
+    const { DEFAULT_CONFIG } = await import('@/lib/m3e/config');
+    const { buildTheme } = await import('@/lib/m3e/css');
     const report = auditTheme(buildTheme(DEFAULT_CONFIG), 'AAA');
     for (const r of report.rows) {
       expect(Number.isNaN(r.light)).toBe(false);
@@ -85,12 +85,12 @@ describe('auditTheme', () => {
 
 describe('findFixContrast', () => {
   it('returns null when the theme already passes (defaults, AA)', async () => {
-    const { DEFAULT_CONFIG } = await import('./config');
+    const { DEFAULT_CONFIG } = await import('@/lib/m3e/config');
     expect(findFixContrast(DEFAULT_CONFIG, 'AA')).toBeNull();
   });
   it('best-effort fix never increases failures and clears all when possible', async () => {
-    const { DEFAULT_CONFIG } = await import('./config');
-    const { buildTheme } = await import('./css');
+    const { DEFAULT_CONFIG } = await import('@/lib/m3e/config');
+    const { buildTheme } = await import('@/lib/m3e/css');
     for (const seed of ['#8c6d1f', '#0061a4'] as const) {
       for (const level of ['AA', 'AA-large'] as const) {
         const config = { ...DEFAULT_CONFIG, seed };

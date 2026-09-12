@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { DEFAULT_CONFIG } from './config';
-import { generateTokensJson } from './tokensJson';
-import { parseStudioInput } from './importConfig';
+import { DEFAULT_CONFIG } from '@/lib/m3e/config';
+import { generateTokensJson } from '@/lib/m3e/tokensJson';
+import { parseStudioInput } from '@/lib/m3e/importConfig';
 
 describe('parseStudioInput', () => {
   it('rejects garbage without throwing', () => {

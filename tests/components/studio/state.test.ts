@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DEFAULT_STATE, paramsToState, stateToParams } from './state';
+import { DEFAULT_STATE, paramsToState, stateToParams } from '@/components/studio/state';
 
 describe('studio URL codec', () => {
   it('omits defaults', () => {

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { buildTheme, renderThemeCss, varBlock, varsAsReactInline } from './css';
-import { DEFAULT_CONFIG } from './config';
-import { M3E_COLOR_ROLES } from './roles';
-import { TYPE_ROLES } from './typography';
+import { buildTheme, renderThemeCss, varBlock, varsAsReactInline } from '@/lib/m3e/css';
+import { DEFAULT_CONFIG } from '@/lib/m3e/config';
+import { M3E_COLOR_ROLES } from '@/lib/m3e/roles';
+import { TYPE_ROLES } from '@/lib/m3e/typography';
 
 describe('buildTheme', () => {
   const bundle = buildTheme(DEFAULT_CONFIG);

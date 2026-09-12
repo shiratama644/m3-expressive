@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { generateTokensJson } from './tokensJson';
-import { DEFAULT_CONFIG } from './config';
+import { generateTokensJson } from '@/lib/m3e/tokensJson';
+import { DEFAULT_CONFIG } from '@/lib/m3e/config';
 
 describe('tokens.json (W3C DTCG style)', () => {
   const json = JSON.parse(generateTokensJson(DEFAULT_CONFIG));

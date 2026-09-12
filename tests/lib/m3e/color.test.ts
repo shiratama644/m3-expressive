@@ -1,7 +1,7 @@
 import { Hct, argbFromHex } from '@material/material-color-utilities';
 import { describe, expect, it } from 'vitest';
-import { buildColorSchemes, normalizeColorHex, seedToHct, M3E_VARIANTS } from './color';
-import { M3E_COLOR_ROLES } from './roles';
+import { buildColorSchemes, normalizeColorHex, seedToHct, M3E_VARIANTS } from '@/lib/m3e/color';
+import { M3E_COLOR_ROLES } from '@/lib/m3e/roles';
 
 const SEED = '#6750A4';
 

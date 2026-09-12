@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { FONT_STACKS, TYPE_ROLES, TYPE_SCALE, fontStack, resolveType } from './typography';
+import { FONT_STACKS, TYPE_ROLES, TYPE_SCALE, fontStack, resolveType } from '@/lib/m3e/typography';
 
 describe('M3E type scale', () => {
   it('has 30 roles (15 base + 15 emphasized)', () => {

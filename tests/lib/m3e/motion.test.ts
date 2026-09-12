@@ -6,7 +6,7 @@ import {
   cubicBezierCss,
   solveSpring,
   springFor,
-} from './motion';
+} from '@/lib/m3e/motion';
 
 describe('durations (androidx MotionTokens v0_103)', () => {
   it('matches spec', () => {

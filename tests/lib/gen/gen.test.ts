@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { DEFAULT_CONFIG } from '@/lib/m3e/config';
-import { FRAMEWORKS, generateFiles } from '.';
-import { PACKAGE_MANAGERS, PM, PM_LABELS } from './pm';
+import { FRAMEWORKS, generateFiles } from '@/lib/gen';
+import { PACKAGE_MANAGERS, PM, PM_LABELS } from '@/lib/gen/pm';
 
 const ALL_COMBOS = FRAMEWORKS.flatMap((f) => PACKAGE_MANAGERS.map((pm) => [f, pm] as const));
 

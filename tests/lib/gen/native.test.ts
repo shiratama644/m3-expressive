@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { DEFAULT_CONFIG } from '@/lib/m3e/config';
-import { generateFiles } from './index';
-import { extraFiles } from './native';
+import { generateFiles } from '@/lib/gen';
+import { extraFiles } from '@/lib/gen/native';
 
 describe('export targets', () => {
   it('adds nothing when no target is selected', () => {

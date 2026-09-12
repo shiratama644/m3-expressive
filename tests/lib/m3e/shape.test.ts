@@ -6,7 +6,7 @@ import {
   namedShapeCss,
   radiusCss,
   shapeSizePx,
-} from './shape';
+} from '@/lib/m3e/shape';
 
 describe('shape sizes (androidx ShapeTokens 14_1_0)', () => {
   it('matches spec values', () => {
