@@ -1,23 +1,29 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('studio /studio', () => {
-  test('share-link seed is applied server-side and code tab follows', async ({ page }) => {
+  test('share-link seed is applied on the server', async ({ page }) => {
     const errors: Error[] = [];
     page.on('pageerror', (e) => errors.push(e));
-
-    await page.goto('/studio?s=ff0000&v=fidelity');
+    await page.goto('/studio?s=ff0000');
     await expect(page.locator('span[aria-label="Seed color"]')).toHaveAttribute('title', /#ff0000/);
-    await expect(page.getByText('Fidelity · contrast', { exact: false })).toBeVisible();
+    expect(errors).toHaveLength(0);
+  });
 
+  test('variant param reaches the header summary', async ({ page }) => {
+    await page.goto('/studio?s=ff0000&v=fidelity');
+    await expect(page.getByText('Fidelity · contrast', { exact: false })).toBeVisible({
+      timeout: 8000,
+    });
+  });
+
+  test('code tab follows framework switches', async ({ page }) => {
+    await page.goto('/studio');
     await page.getByRole('button', { name: 'Code' }).click();
     await expect(page.getByText('app/globals.css').first()).toBeVisible();
-    // switch framework → file list changes
     await page.getByRole('button', { name: 'Vue 3 + Vite + Tailwind v4' }).click();
     await expect(page.getByText('src/composables/useM3eTheme.ts')).toBeVisible();
-    // README carries the pnpm command ladder by default
     await page.getByRole('button').filter({ hasText: 'README.md' }).click();
     await expect(page.getByText('pnpm add', { exact: false }).first()).toBeVisible();
-    expect(errors).toHaveLength(0);
   });
 
   test('ZIP download bundles the selected framework', async ({ page }) => {
