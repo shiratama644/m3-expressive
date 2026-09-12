@@ -67,6 +67,7 @@ export function CodePanel({ state }: { state: StudioState }) {
             <button
               key={fw}
               type="button"
+              aria-label={FRAMEWORK_META[fw].label}
               aria-pressed={fw === framework}
               onClick={() => {
                 setFramework(fw);

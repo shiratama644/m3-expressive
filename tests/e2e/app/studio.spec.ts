@@ -20,7 +20,7 @@ test.describe('studio /studio', () => {
     await page.goto('/studio');
     await page.getByRole('button', { name: 'Code' }).click();
     await expect(page.getByText('app/globals.css').first()).toBeVisible();
-    await page.locator('button:has-text("Vue 3 + Vite + Tailwind v4")').click();
+    await page.getByRole('button', { name: 'Vue', exact: true }).click();
     await expect(page.getByText('src/composables/useM3eTheme.ts')).toBeVisible();
     await page.getByRole('button').filter({ hasText: 'README.md' }).click();
     await expect(page.getByText('pnpm add', { exact: false }).first()).toBeVisible();
@@ -29,7 +29,7 @@ test.describe('studio /studio', () => {
   test('ZIP download bundles the selected framework', async ({ page }) => {
     await page.goto('/studio?s=0061a4');
     await page.getByRole('button', { name: 'Code' }).click();
-    await page.getByRole('button', { name: 'Tailwind CSS' }).first().click();
+    await page.getByRole('button', { name: 'Tailwind CSS', exact: true }).click();
     const [download] = await Promise.all([
       page.waitForEvent('download'),
       page.getByRole('button', { name: 'Download ZIP' }).click(),
