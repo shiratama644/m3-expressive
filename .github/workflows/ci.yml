@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '24'
+  PNPM_VERSION: '12.4.1'
+
+jobs:
+  quality:
+    name: Quality (Node 24 / pnpm)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      # build first: it generates the typed-route definitions that `tsc` needs
+      - run: pnpm build
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm test:coverage  # unit + 90% coverage gate (thresholds in vitest.config.ts)
+
+  pm-matrix:
+    name: Install + Build (Node ${{ matrix.node-version }} / ${{ matrix.pm }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [24]
+        pm: [bun, pnpm, npm, yarn]
+    steps:
+      - uses: actions/checkout@v5
+      - if: matrix.pm == 'bun'
+        uses: oven-sh/setup-bun@v2
+      - if: matrix.pm == 'pnpm'
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node-version }}
+          # no lockfile for npm/yarn in this repo (single pnpm lock) → no cache there
+          cache: ${{ matrix.pm == 'pnpm' && 'pnpm' || '' }}
+          yarn-version: '1.22.22'
+      - name: install
+        run: |
+          case "${{ matrix.pm }}" in
+            bun)  bun install ;;
+            pnpm) pnpm install --frozen-lockfile ;;
+            npm)  npm install --no-audit --no-fund ;;
+            yarn) yarn install ;;
+          esac
+      - name: build
+        run: |
+          case "${{ matrix.pm }}" in
+            bun)  bun run build ;;
+            pnpm) pnpm run build ;;
+            npm)  npm run build ;;
+            yarn) yarn build ;;
+          esac
+
+  e2e:
+    name: E2E (Playwright / Chromium)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: e2e
+        run: |
+          set +e
+          PLAYWRIGHT_JSON_OUTPUT_NAME=results.json pnpm test:e2e --reporter=json > e2e-console.log 2>&1
+          code=$?
+          if [ "$code" -ne 0 ]; then
+            msg=""
+            if [ -f results.json ]; then
+              msg=$(node -e "const r=require('./results.json');const out=[];for(const su of r.suites||[])for(const s2 of su.suites||[])for(const sp of s2.specs||[])for(const t of sp.tests||[])for(const res of t.results||[])if(res.status!=='passed'){const e=res.error||{};const snip=(e.snippet||'').split(String.fromCharCode(10)).slice(1,4).join(' >> ');out.push(sp.title+' @L'+(e.location?e.location.line:'?')+' :: '+(e.message||res.status)+' :: '+snip)}console.log(out.slice(0,3).join(' ||| '))" 2>/dev/null)
+            fi
+            if [ -z "$msg" ]; then
+              msg=$(grep -oE "Error:.{0,160}" e2e-console.log | head -4)
+            fi
+            if [ -z "$msg" ]; then
+              msg=$(tail -20 e2e-console.log)
+            fi
+            msg=$(printf '%s' "$msg" | tr -d '\r' | tr '\n' ' | ' | head -c 1400 | tr '%' '#')
+            echo "ANNOTATION: $msg"
+            echo "::error title=Playwright failures::$msg"
+          fi
+          exit "$code"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 7

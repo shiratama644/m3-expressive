@@ -141,3 +141,16 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# next.js (project additions)
+next-env.d.ts
+*.tsbuildinfo
+out/
+.env*.local
+.vercel/
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+playwright.local.config.ts

@@ -1,0 +1,49 @@
+{
+  "name": "m3-expressive",
+  "version": "0.1.0",
+  "private": true,
+  "description": "M3E Studio — Generate Material 3 Expressive designs for React / Next.js / Vue / Tailwind CSS with Bun / pnpm / npm / yarn",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "node scripts/executer.ts dev -H 0.0.0.0",
+    "build": "node scripts/executer.ts build",
+    "start": "node scripts/executer.ts start -H 0.0.0.0",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "typecheck": "tsc --noEmit",
+    "test:unit": "vitest run",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@fontsource-variable/material-symbols-rounded": "5.3.5",
+    "@fontsource-variable/roboto-flex": "5.3.0",
+    "@material/material-color-utilities": "0.4.0",
+    "dexie": "4.4.6",
+    "fflate": "0.8.3",
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.13",
+    "@playwright/test": "1.63.0",
+    "@tailwindcss/postcss": "4.3.3",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "24.13.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitest/coverage-v8": "5.0.0",
+    "jsdom": "30.0.1",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "vitest": "5.0.0"
+  }
+}
