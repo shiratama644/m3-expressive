@@ -40,16 +40,19 @@
 
 ### M3E Studio 立ち上げ (2026-09-12 計画 / docs/planning/M3E_STUDIO_PLAN.md)
 
-| ID    | タスク                                                            | 状態   | 進捗 | 依存     | 完了条件                                                             | 証拠                                                                               |
-| ----- | ----------------------------------------------------------------- | ------ | ---: | -------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| GEN-1 | 土台（TEMPLATE_REPO 導入 + Next 16 スキャフォールド + 4 PM 環境） | ✅     | 100% | —        | build/typecheck 可、pnpm lock 生成、AGENTS §6 記入                   | b69f09d                                                                            |
-| GEN-2 | M3E トークンエンジン + 単体テスト                                 | ✅     | 100% | GEN-1    | `pnpm test:unit` pass、色ロール/シェイプ/モーション/タイポ生成       | a55b1cc（47 tests）                                                                |
-| GEN-3 | サイトシェル・フォント自己ホスト・テーマ適用                      | ✅     | 100% | GEN-1    | dev 起動で Roboto Flex/Material Symbols が CDN 経由なく表示、`/` 200 | a55b1cc + `/` 200（102KB）                                                         |
-| GEN-4 | Studio: コントロール + ライブプレビュー                           | ✅     | 100% | GEN-2,3  | シード変更で全プレビュー色即時反映、ダーク切替動作                   | `?s=ff0000`→#9d4336 SSR 確認                                                       |
-| GEN-5 | コード生成 (React/Next/Vue/Tailwind) + PM タブ + zip/copy         | ✅     | 100% | GEN-4    | 4FW×4PM 出力、zip 生成、コピー動作、生成物に PM コマンド表あり       | 5bf1f03（54 tests）                                                                |
-| GEN-6 | ランディング / docs / トークンリファレンス                        | ✅     | 100% | GEN-5    | 3 ページ描画・導入手順 16 組合せ表示                                 | `/` `/docs` `/tokens` 200、docs で 4PM 表表示                                      |
-| GEN-7 | CI (Node 24 × 4 PM) + 4 PM ローカル検証                           | ✅     | 100% | GEN-1    | ワークフロー緑、sandbox で bun/npm/yarn/pnpm install+build 完走ログ  | sandbox: bun/npm/yarn install+build 完走（pnpm は本流で常時）、CI 緑は push 後確認 |
-| GEN-8 | 最終仕上げ（README・skill・ログ・push・PR）                       | 実装中 |  60% | GEN-2〜7 | 全検証 pass、working tree clean、push 済み、PR URL 報告              | skill/ログ記入済、push 実行中                                                      |
+| ID     | タスク                                                            | 状態   | 進捗 | 依存     | 完了条件                                                             | 証拠                                                                               |
+| ------ | ----------------------------------------------------------------- | ------ | ---: | -------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| GEN-1  | 土台（TEMPLATE_REPO 導入 + Next 16 スキャフォールド + 4 PM 環境） | ✅     | 100% | —        | build/typecheck 可、pnpm lock 生成、AGENTS §6 記入                   | b69f09d                                                                            |
+| GEN-2  | M3E トークンエンジン + 単体テスト                                 | ✅     | 100% | GEN-1    | `pnpm test:unit` pass、色ロール/シェイプ/モーション/タイポ生成       | a55b1cc（47 tests）                                                                |
+| GEN-3  | サイトシェル・フォント自己ホスト・テーマ適用                      | ✅     | 100% | GEN-1    | dev 起動で Roboto Flex/Material Symbols が CDN 経由なく表示、`/` 200 | a55b1cc + `/` 200（102KB）                                                         |
+| GEN-4  | Studio: コントロール + ライブプレビュー                           | ✅     | 100% | GEN-2,3  | シード変更で全プレビュー色即時反映、ダーク切替動作                   | `?s=ff0000`→#9d4336 SSR 確認                                                       |
+| GEN-5  | コード生成 (React/Next/Vue/Tailwind) + PM タブ + zip/copy         | ✅     | 100% | GEN-4    | 4FW×4PM 出力、zip 生成、コピー動作、生成物に PM コマンド表あり       | 5bf1f03（54 tests）                                                                |
+| GEN-6  | ランディング / docs / トークンリファレンス                        | ✅     | 100% | GEN-5    | 3 ページ描画・導入手順 16 組合せ表示                                 | `/` `/docs` `/tokens` 200、docs で 4PM 表表示                                      |
+| GEN-7  | CI (Node 24 × 4 PM) + 4 PM ローカル検証                           | ✅     | 100% | GEN-1    | ワークフロー緑、sandbox で bun/npm/yarn/pnpm install+build 完走ログ  | sandbox: bun/npm/yarn install+build 完走（pnpm は本流で常時）、CI 緑は push 後確認 |
+| GEN-8  | 最終仕上げ（README・skill・ログ・push・PR）                       | 実装中 |  60% | GEN-2〜7 | 全検証 pass、working tree clean、push 済み、PR URL 報告              | skill/ログ記入済、push 実行中                                                      |
+| GEN-9  | Studio: WCAG 2.2 コントラスト検査                                 | ✅     | 100% | GEN-4    | 全ロールペアの比を light/dark で表示、基準切替（AA/AA-large/AAA）    | 12 tests、テキスト全ペア AA pass                                                   |
+| GEN-10 | /presets ギャラリー + IndexedDB（Dexie）保存                      | ✅     | 100% | GEN-4    | 10 シード表示・保存/読込/削除・共有リンク                            | `/presets` 200、Save/My themes 実装                                                |
+| GEN-11 | tokens.json インポート & Style Dictionary/Compose/XML 出力        | ✅     | 100% | GEN-5    | 往復パース（round-trip test）・追加ファイルが ZIP に含まれる         | 10 tests 追加                                                                      |
 
 ---
 
