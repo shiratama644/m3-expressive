@@ -203,13 +203,22 @@ export default function Home() {
               パターンの導入手順を自動生成します。
             </p>
           </div>
-          <Link
-            href="/studio"
-            className="m3e-press bg-on-primary t-title-medium text-primary inline-flex h-14 shrink-0 items-center gap-2 rounded-(--m3e-shape-button) px-7 hover:brightness-105 active:scale-95 active:rounded-(--m3e-shape-medium)"
-          >
-            <span className="material-symbols-rounded text-[24px]">rocket_launch</span>
-            Studio を開く
-          </Link>
+          <div className="flex shrink-0 items-center gap-3">
+            <Link
+              href="/presets"
+              className="m3e-press t-title-medium border-on-primary/40 hover:bg-on-primary/10 inline-flex h-14 items-center gap-2 rounded-(--m3e-shape-button) border px-6 opacity-95"
+            >
+              <span className="material-symbols-rounded text-[22px]">grid_view</span>
+              プリセットを見る
+            </Link>
+            <Link
+              href="/studio"
+              className="m3e-press bg-on-primary t-title-medium text-primary inline-flex h-14 items-center gap-2 rounded-(--m3e-shape-button) px-7 hover:brightness-105 active:scale-95 active:rounded-(--m3e-shape-medium)"
+            >
+              <span className="material-symbols-rounded text-[24px]">rocket_launch</span>
+              Studio を開く
+            </Link>
+          </div>
         </div>
       </section>
     </div>

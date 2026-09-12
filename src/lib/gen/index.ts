@@ -5,6 +5,9 @@ import { nextFiles } from './next';
 import { reactFiles } from './react';
 import { vueFiles } from './vue';
 import { tailwindFiles } from './tailwind';
+import { extraFiles, type ExportTarget } from './native';
+
+export * from './native';
 
 export * from './pm';
 export type { GenFile, GenContext } from './common';
@@ -24,16 +27,16 @@ export function generateFiles(
   config: M3EConfig,
   framework: Framework,
   pm: PackageManager,
+  extras: readonly ExportTarget[] = [],
 ): GenFile[] {
   const ctx = makeContext(config, pm);
-  switch (framework) {
-    case 'next':
-      return nextFiles(ctx);
-    case 'react':
-      return reactFiles(ctx);
-    case 'vue':
-      return vueFiles(ctx);
-    case 'tailwind':
-      return tailwindFiles(ctx);
-  }
+  const base =
+    framework === 'next'
+      ? nextFiles(ctx)
+      : framework === 'react'
+        ? reactFiles(ctx)
+        : framework === 'vue'
+          ? vueFiles(ctx)
+          : tailwindFiles(ctx);
+  return [...base, ...extraFiles(config, extras)];
 }

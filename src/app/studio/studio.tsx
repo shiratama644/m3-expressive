@@ -5,11 +5,13 @@ import { buildTheme } from '@/lib/m3e/css';
 import { Controls } from '@/components/studio/controls';
 import { Preview } from '@/components/studio/preview';
 import { CodePanel } from '@/components/studio/code-panel';
+import { A11yPanel } from '@/components/studio/a11y-panel';
+import { ThemeActions } from '@/components/studio/theme-actions';
 import { stateToParams, type StudioPatch, type StudioState } from '@/components/studio/state';
 import { VARIANT_LABELS } from '@/lib/m3e/color';
 import { Icon } from '@/components/m3e/actions';
 
-type Tab = 'preview' | 'code';
+type Tab = 'preview' | 'code' | 'a11y';
 
 export function Studio({ initialState }: { initialState: StudioState }) {
   const [state, setState] = useState<StudioState>(initialState);
@@ -41,6 +43,7 @@ export function Studio({ initialState }: { initialState: StudioState }) {
             [
               ['preview', 'visibility', 'Preview'],
               ['code', 'code', 'Code'],
+              ['a11y', 'accessibility_new', 'A11y'],
             ] as const
           ).map(([id, icon, label]) => (
             <button
@@ -69,15 +72,20 @@ export function Studio({ initialState }: { initialState: StudioState }) {
               className="ring-outline h-5 w-5 shrink-0 rounded-(--m3e-shape-extra-small) ring-1"
               style={{ background: state.config.seed }}
             />
+            <ThemeActions state={state} onApply={setState} />
           </div>
         </div>
 
         <div className="bg-surface-dim min-h-0 flex-1 overflow-auto">
           {tab === 'preview' ? (
             <Preview bundle={bundle} mode={state.mode} />
-          ) : (
+          ) : tab === 'code' ? (
             <div className="bg-surface-container-lowest h-full">
               <CodePanel state={state} />
+            </div>
+          ) : (
+            <div className="bg-surface-container-lowest h-full overflow-auto">
+              <A11yPanel bundle={bundle} />
             </div>
           )}
         </div>

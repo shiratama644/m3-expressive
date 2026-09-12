@@ -1,7 +1,15 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { FRAMEWORKS, FRAMEWORK_META, generateFiles, type Framework } from '@/lib/gen';
+import {
+  EXPORT_TARGETS,
+  EXPORT_TARGET_LABELS,
+  FRAMEWORKS,
+  FRAMEWORK_META,
+  generateFiles,
+  type ExportTarget,
+  type Framework,
+} from '@/lib/gen';
 import { PACKAGE_MANAGERS, PM_LABELS, type PackageManager } from '@/lib/gen/pm';
 import { highlight } from '@/lib/gen/highlight';
 import { downloadProjectZip } from './zip';
@@ -15,6 +23,8 @@ const LANG_BADGE: Record<string, string> = {
   tsx: 'TSX',
   vue: 'Vue',
   html: 'HTML',
+  kotlin: 'Kotlin',
+  xml: 'XML',
   md: 'MD',
   json: 'JSON',
   js: 'JS',
@@ -23,12 +33,13 @@ const LANG_BADGE: Record<string, string> = {
 export function CodePanel({ state }: { state: StudioState }) {
   const [framework, setFramework] = useState<Framework>('next');
   const [pm, setPm] = useState<PackageManager>('pnpm');
+  const [extras, setExtras] = useState<ExportTarget[]>([]);
   const [copied, setCopied] = useState<string | null>(null);
   const [zipping, setZipping] = useState(false);
 
   const files = useMemo(
-    () => generateFiles(state.config, framework, pm),
-    [state.config, framework, pm],
+    () => generateFiles(state.config, framework, pm, extras),
+    [state.config, framework, pm, extras],
   );
   const [selected, setSelected] = useState<string>(files[0]?.path ?? '');
   const current = files.find((f) => f.path === selected) ?? files[0];
@@ -59,7 +70,7 @@ export function CodePanel({ state }: { state: StudioState }) {
               aria-pressed={fw === framework}
               onClick={() => {
                 setFramework(fw);
-                const next = generateFiles(state.config, fw, pm);
+                const next = generateFiles(state.config, fw, pm, extras);
                 setSelected(next[0]?.path ?? '');
               }}
               className={`m3e-press t-label-medium px-3 py-1.5 ${i > 0 ? 'border-outline-variant border-l' : ''} ${
@@ -89,6 +100,27 @@ export function CodePanel({ state }: { state: StudioState }) {
               {PM_LABELS[p]}
             </button>
           ))}
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="t-label-small text-on-surface-variant mr-1">追加出力</span>
+          {EXPORT_TARGETS.map((t) => {
+            const on = extras.includes(t);
+            return (
+              <button
+                key={t}
+                type="button"
+                aria-pressed={on}
+                onClick={() => setExtras((cur) => (on ? cur.filter((x) => x !== t) : [...cur, t]))}
+                className={`m3e-press t-label-medium rounded-(--m3e-shape-button) px-2.5 py-1 ${
+                  on
+                    ? 'bg-tertiary-container text-on-tertiary-container'
+                    : 'text-on-surface-variant hover:bg-on-surface/8'
+                }`}
+              >
+                {EXPORT_TARGET_LABELS[t]}
+              </button>
+            );
+          })}
         </div>
         <div className="ml-auto flex items-center gap-1">
           <button

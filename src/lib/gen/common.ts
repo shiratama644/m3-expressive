@@ -7,7 +7,7 @@ import { PM, type PackageManager } from './pm';
 export interface GenFile {
   /** e.g. "src/theme/tokens.css" */
   path: string;
-  lang: 'css' | 'ts' | 'tsx' | 'vue' | 'html' | 'md' | 'json' | 'js';
+  lang: 'css' | 'ts' | 'tsx' | 'vue' | 'html' | 'md' | 'json' | 'js' | 'kotlin' | 'xml';
   content: string;
 }
 
