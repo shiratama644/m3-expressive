@@ -31,7 +31,7 @@ jobs:
       - run: pnpm build
       - run: pnpm typecheck
       - run: pnpm lint
-      - run: pnpm test:unit
+      - run: pnpm test:coverage  # unit + 90% coverage gate (thresholds in vitest.config.ts)
 
   pm-matrix:
     name: Install + Build (Node ${{ matrix.node-version }} / ${{ matrix.pm }})

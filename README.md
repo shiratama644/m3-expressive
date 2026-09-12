@@ -67,4 +67,4 @@ webpack キャッシュ永続化のため `next.config.mjs`（`.ts` 不可 — �
 - 依存バージョンはすべて exact pin。`packageManager` フィールドは意図的に置かない（CI で corepack 使用）
 - フォントは npm（Fontsource）自己ホスト。`Roboto Flex Variable` + `Material Symbols Rounded`
 - `pnpm typecheck` は `next build` 後に実行すること（typed routes の生成型に依存）
-- トークンの値は `androidx` 生成仕様が正。テストでロック済み（unit 81 + e2e 15）
+- トークンの値は `androidx` 生成仕様が正。テストでロック済み（unit 175 + e2e 15・カバレッジ 90% ゲート付き）

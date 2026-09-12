@@ -1,6 +1,8 @@
 # Vitest カバレッジ 90% 達成プラン
 
-> 作成: 2026-09-12 / 状態: **計画のみ**（このコミットでテストは増やさない）
+> 作成: 2026-09-12 / **状態: 達成・ゲート有効（2026-09-12 同日に M1+M3+M4 実施）**
+>
+> 実績: 55.03% → **95.5 Stmts / 90.6 Branch / 93.3 Funcs / 96.3 Lines**（175 unit tests）。CI quality ジョブは `pnpm test:coverage` で 90% ゲートを強制。M2（reducer 抽出）は RTL+SSR テストで等価以上をカバーしたため不要と判断。残りは将来の分岐詰めの参考として本計画を維持する。
 > 目標: **Statements / Lines / Functions / Branches の repo 横断 90%**（vitest カバレッジ目標）
 > 測定: `pnpm test:coverage`（provider: v8、reporter: text + html）
 

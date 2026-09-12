@@ -23,7 +23,8 @@ export function SiteHeader() {
         </Link>
         <nav className="ml-auto flex items-center gap-1">
           {NAV.map((item) => {
-            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const active =
+              pathname === item.href || (pathname?.startsWith(`${item.href}/`) ?? false);
             return (
               <Link
                 key={item.href}

@@ -2,7 +2,7 @@
   "name": "m3-expressive",
   "version": "0.1.0",
   "private": true,
-  "description": "M3E Studio \u2014 Generate Material 3 Expressive designs for React / Next.js / Vue / Tailwind CSS with Bun / pnpm / npm / yarn",
+  "description": "M3E Studio — Generate Material 3 Expressive designs for React / Next.js / Vue / Tailwind CSS with Bun / pnpm / npm / yarn",
   "license": "MIT",
   "engines": {
     "node": ">=24.0.0"
@@ -36,10 +36,12 @@
     "@biomejs/biome": "2.5.13",
     "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "4.3.3",
+    "@testing-library/react": "16.3.3",
     "@types/node": "24.13.4",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@vitest/coverage-v8": "5.0.0",
+    "jsdom": "30.0.1",
     "tailwindcss": "4.3.3",
     "typescript": "5.9.3",
     "vitest": "5.0.0"

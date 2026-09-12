@@ -61,6 +61,7 @@
 | GEN-17 | Vitest カバレッジ 90% 目標（設定+計画のみ・増強は次段階）         | ✅                | 100% | GEN-15   | `test:coverage` 実測 55.0% → `docs/planning/COVERAGE_PLAN.md`（M1〜M4）     | thresholds は意図的に未設定（M4 で 90 化） |
 | GEN-18 | e2e AAA 12 ペア未達解消（エンジン probe 緩和）                     | ⏸ キャンセル    |   0% | GEN-12   | 依頼取り消し（やっぱやめます）。e2e の contrast 0.9 修復フローは仕様として維持 | 将来やるなら COVERAGE_PLAN と別枠で probe 方針変更の合意形成から |
 | GEN-19 | DropMod から executer/buildEnv 移植（Termux/PRoot→webpack・他 turbopack 切替 + bundler 別キャッシュ永続化 + start/info）        | ✅                | 100% | GEN-15   | cold 17.5s→warm 6.3s・"Caching failed for pack" 0 件・start 200・unit 94/94      | next.config は .mjs 必須（冒頭コメント参照）。scripts/ も typecheck 対象 |
+| GEN-20 | カバレッジ増強 M1+M3+M4 実行（unit 94→175・CI 90% ゲート有効化）                | ✅                | 100% | GEN-17   | 95.5 Stmts / 90.6 Branch / 93.3 Funcs / 96.3 Lines・thresholds 4 項目全緑        | M2 reducer 抽出は RTL+SSR で代替。layout.tsx は next/font 制約で除外 |
 
 ---
 

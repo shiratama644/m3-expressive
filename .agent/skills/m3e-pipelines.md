@@ -49,3 +49,9 @@ package-manager command strings.
 - Never move `next.config.mjs` back to `.ts`: the compiled-config temp file makes webpack's persistent cache fail with "Caching failed for pack" (turbopack fs cache is unaffected, but the Termux/PRoot path depends on it).
 - `scripts/*.ts` imports use the explicit `./buildEnv.ts` extension (Node type-stripping requirement) — keep `allowImportingTsExtensions` in tsconfig and don't "fix" the extension away.
 - The executer spawns `node_modules/next/dist/bin/next` with `process.execPath` so all four PMs (bun/pnpm/npm/yarn) get identical behavior; keep package-manager-specific logic out of it.
+## Testing pitfalls (component/SSR specs)
+- jsdom specs opt in per-file with `// @vitest-environment jsdom` (default project env is node).
+- `CodePanel` state updates run through a deferred transition: assert DOM with `waitFor`, not immediate re-query loops; a stale element reference + single assert is enough for toggle coverage.
+- ThemeActions popup buttons are icon-only on mobile widths (visually-hidden labels) — select them by DOM order (`getAllByRole('button')[0..2]` = Import/Save/My themes) or by `aria-expanded`, never by hidden text.
+- SSR page specs render `renderToStaticMarkup(await Page({...}))` with `searchParams: Promise.resolve({...})` (Next 16 shape). `app/layout.tsx` stays excluded: `next/font/local` cannot load outside the Next build.
+- Clipboard/download: stub `navigator.clipboard.writeText` + `URL.createObjectURL` via `Object.defineProperty(..., { configurable: true })`; zip assertions use fflate `unzipSync` round-trip.
