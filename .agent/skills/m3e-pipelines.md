@@ -36,7 +36,7 @@ package-manager command strings.
 - `pnpm typecheck` fails with TS2344 `PageProps<'/studio'>` unless `next build`
   ran first (Next 16 generates route types during build). Verify order:
   build → typecheck → lint → test.
-- `react-hooks/set-state-in-effect` (enabled via Next 16 eslint): never bootstrap
+- URL-seed → state writes must never run unconditionally in effects (ex-eslint rule; Biome does not lint hooks, so review enforces this): never bootstrap
   state from `window.location.search` in an effect. Read `searchParams`
   server-side in `page.tsx` and pass an `initialState` prop; effects may only
   WRITE the URL (`history.replaceState`).

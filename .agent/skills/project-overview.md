@@ -15,7 +15,7 @@ M3E Studio — a Next.js site that generates Material 3 Expressive themes (color
 - Next 16 + React 19 + Tailwind v4 + TS strict + Dexie 4 (IndexedDB presets). Node **24 LTS** only (`.nvmrc`, `engines >=24`).
 - Deps **exact-pinned**, single `pnpm-lock.yaml`, **no `packageManager` field** (intentional). CI matrix runs install+build on all 4 PMs (Node 24).
 - Fonts self-hosted via Fontsource npm (sandbox egress blocks Google Fonts CDN — keep it that way).
-- Unit tests = vitest 5, **all under `tests/` mirroring `src/`** (`tests/**/*.test.ts`, import via `@/…`; 80 tests). E2E = Playwright (`@playwright/test`, exact) under `tests/e2e/app/**` matching `src/app/**` routes; config `playwright.config.ts` spawns `next start` on :3100 via `node_modules/.bin/` (PM-agnostic). CI `e2e` job runs it; sandbox cannot (browser CDN blocked) — use `playwright test --list` locally. Generated output has ZERO runtime npm deps.
+- Unit tests = vitest 5, **all under `_tests_/` mirroring `src/`** (`_tests_/**/*.test.ts`, import via `@/…`; 81 tests). E2E = Playwright (`@playwright/test`, exact) under `_tests_/e2e/app/**` matching `src/app/**` routes; config `playwright.config.ts` spawns `next start` on :3100 via `node_modules/.bin/` (PM-agnostic). CI `e2e` job runs it; sandbox cannot (browser CDN blocked) — use `playwright test --list` locally. Generated output has ZERO runtime npm deps.
 - No material-web library — M3E components are hand-rolled (upstream doesn't support M3E).
 
 ## 3. Data flow (single source of truth!)
@@ -34,4 +34,4 @@ GEN-1..GEN-11 done: token engine, studio (preview/code/a11y tabs), pages, CI mat
 - pnpm/bun may be missing from PATH after a sandbox rebuild; use
   `COREPACK_NPM_REGISTRY=https://registry.npmjs.org corepack pnpm@12.4.1 <cmd>` (registry.npmjs.org is the only reachable npm mirror).
 - `pnpm typecheck` needs `pnpm build` first (typed routes).
-- ESLint (Next 16) enables `react-hooks/set-state-in-effect`: read URL via server `searchParams`, only WRITE it in effects.
+- Lint/format = Biome 2 (`biome.json`, singleQuote+semi+lineWidth 100). Biome has no react-hooks rules: the effect discipline (read URL via server `searchParams`, only WRITE it in effects) and Tailwind class ordering (`t-*` first, no plugin sorting anymore) are review-enforced conventions.

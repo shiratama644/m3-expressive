@@ -200,7 +200,7 @@ pnpm install --frozen-lockfile
 ### 6.1 環境・ツールチェーン
 
 - **Node.js 24 LTS**（`.nvmrc` / `.node-version` = 24.21.0、`package.json` engines `>=24`）。
-- **Next.js 16（App Router / Turbopack デフォルト）+ React 19 + TypeScript 5.9（strict）+ Tailwind CSS v4（CSS-first `@theme`）**。Lint: ESLint 9 flat config + Prettier 3（`prettier-plugin-tailwindcss`）。テスト: Vitest 5。
+- **Next.js 16（App Router / Turbopack デフォルト）+ React 19 + TypeScript 5.9（strict）+ Tailwind CSS v4（CSS-first `@theme`）**。Lint + Format: **Biome 2**（単一ツールで整形・lint・import 整理。Tailwind クラス順の自動整列はないため `t-*` ユーティリティは規約で先に書く）。テスト: Vitest 5（unit は `_tests_/` に `src/` ミラー）+ Playwright e2e（`_tests_/e2e/`、CI の `e2e` ジョブ）。カバレッジ: `pnpm test:coverage`（目標 90% — `docs/planning/COVERAGE_PLAN.md`）。
 - 依存バージョンは **exact pin（`^` なし）**。Bun / pnpm / npm / yarn の 4 PM で同一解決になることを狙いとする。
 - `packageManager` フィールドは**意図的に置かない**（4 PM 対応のため、corepack 固定をしない）。
 - 開発の基準 PM は pnpm。検証コマンド（`package.json` 準拠）:
@@ -235,7 +235,7 @@ pnpm install --frozen-lockfile
 ### 6.5 Lint 特有ルール
 
 - Prettier の format 検証は `pnpm format:check`（`lint` とは別コマンド）。両方 commit 前に通す。
-- `eslint-disable` は原則禁止。不可な場合は行単位で理由をコメント添えて明示する。
+- Biome の抑止コメント（`// biome-ignore`）は原則禁止。不可な場合は行単位で理由をコメント添えて明示する。フォーマット逸脱は `pnpm format:check` が CI で失敗させるため、コミット前に `pnpm format`（= `biome format --write`）を実行する（md/yml も対象）。
 - `src/lib/gen/templates/*.ts` 内のコード文字列は「文字列」であり、Lint/Format の対象にならない（エスケープに注意して素のテンプレートリテラルで書く）。
 
 ### 6.6 UI 実装ルール
