@@ -87,7 +87,22 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:e2e
+      - name: e2e
+        run: |
+          set +e
+          PLAYWRIGHT_JSON_OUTPUT_NAME=results.json pnpm test:e2e --reporter=json
+          code=$?
+          set -e
+          if [ "$code" -ne 0 ] && [ -f results.json ]; then
+            msg=$(jq -r '[.suites[]?.suites[]?.specs[]? | . as $s | .tests[]?.results[]?
+                        | select(.status != "passed")
+                        | ($s.title + " :: " + ((.error.message // .status // "?") | gsub("\n"; " ⏎ ")))]
+                        | first(.[0:4]) // "no details"' results.json | head -c 1800 | tr '%' '#')
+            echo "::error title=Playwright failure::$msg"
+          else
+            jq -r '.stats' results.json | head -5
+          fi
+          exit "$code"
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
